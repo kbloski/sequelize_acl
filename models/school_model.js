@@ -3,7 +3,7 @@ import { sequelize } from '../utility/db.js';
 
 const School = sequelize.define('School', {
     id: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         validate: {
