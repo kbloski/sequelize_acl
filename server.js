@@ -22,7 +22,7 @@ app.get('/login', (req, res)=> {
     res.render('pages/login.ejs')
 });
 app.get('/register', (req, res)=> {
-    res.render('pages/register.ejs')
+    res.render ('pages/register.ejs')
 });
 
 app.listen(3010, ()=>{
