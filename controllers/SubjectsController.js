@@ -37,7 +37,7 @@ export class SubjectsController {
             where: { id: id }
         })
 
-        return subjectDb;
+        return await updatedSubject;
     };
 
 };
