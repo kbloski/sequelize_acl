@@ -1,6 +1,6 @@
 import { User, School, Subject, Grade} from '../models/schemas.js';
 
-export class SubjectController {
+export class SubjectsController {
     async getAll(){
         return await Subject.findAll({});
     };
