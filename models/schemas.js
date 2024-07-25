@@ -15,6 +15,9 @@ User.belongsTo(School, {
 School.belongsTo(User, {as: 'director'}); // w szkole powstanie director Id wskazujący na user
 
 // *** subject's relations *** 
+School.hasMany(Subject, {
+    foreignKey: 'schoolId'
+})
 Subject.belongsTo(School, {
     foreignKey: 'schoolId'
 });
@@ -52,7 +55,7 @@ Grade.belongsTo(User, {
 
 Grade.belongsTo(School);
 
-await sequelize.sync();
+await sequelize.sync( {force:true});
 
 export {
     User,
