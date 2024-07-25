@@ -1,6 +1,8 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../utility/db.js';
 
+const userRolesArr = ['admin','director','teacher','student']
+
 const User = sequelize.define('User', {
     id: {
         type: DataTypes.INTEGER,
@@ -57,10 +59,10 @@ const User = sequelize.define('User', {
     address: {
         type: DataTypes.STRING(256),
         allowNull: true,
-        validate: { len: [1,256]}
+        validate: { len: [0,256]}
     },
     role: {
-        type: DataTypes.ENUM( ['admin','director','teacher','student']),
+        type: DataTypes.ENUM( {values: userRolesArr} ),
         defaultValue: 'student',
         allowNull: false,
         validate: { len: [1, 12]}
@@ -68,5 +70,6 @@ const User = sequelize.define('User', {
 });
 
 export {
-    User
+    User,
+    userRolesArr
 }
