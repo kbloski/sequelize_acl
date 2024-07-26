@@ -16,7 +16,13 @@ app.set('view engine', 'ejs');
 app.use(express.static('./public'));
 
 app.get('/', (req, res)=> {
-    res.send('Homepage')
+    res.render('pages/index.ejs')
+});
+app.get('/login', (req, res)=> {
+    res.render('pages/login.ejs')
+});
+app.get('/register', (req, res)=> {
+    res.render ('pages/register.ejs')
 });
 
 app.listen(3010, ()=>{
