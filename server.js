@@ -3,6 +3,7 @@ import expressSession from 'express-session';
 import * as path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { schoolsController } from './controllers/controllers.js';
 
 const __dirname = dirname( fileURLToPath ( import.meta.url ));
 
@@ -15,14 +16,14 @@ app.set('views', viewsPath);
 app.set('view engine', 'ejs');
 app.use(express.static('./public'));
 
-app.get('/', (req, res)=> {
+app.get('/', async (req, res)=> {
     res.render('pages/index.ejs')
 });
-app.get('/login', (req, res)=> {
+app.get('/login', async (req, res)=> {
     res.render('pages/login.ejs')
 });
-app.get('/register', (req, res)=> {
-    res.render ('pages/register.ejs')
+app.get('/register', async (req, res)=> {
+    res.render ('pages/register.ejs', {})
 });
 
 app.listen(3010, ()=>{
