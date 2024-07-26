@@ -19,12 +19,23 @@ app.use(express.static('./public'));
 app.get('/', async (req, res)=> {
     res.render('pages/index.ejs')
 });
+
 app.get('/login', async (req, res)=> {
     res.render('pages/login.ejs')
 });
+app.post('/login', async (req, res)=> {
+    res.render('pages/login.ejs')
+});
+
 app.get('/register', async (req, res)=> {
     res.render ('pages/register.ejs', {})
 });
+app.post('/register', async (req, res)=> {
+    res.render ('pages/register.ejs', {})
+});
+app.get('/dashboard', async(req,res)=> {
+    res.render('pages/dashboard.ejs')
+})
 
 app.listen(3010, ()=>{
     console.log('Server started at port 3010')
