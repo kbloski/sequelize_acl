@@ -54,6 +54,24 @@ app.post('/login', passport.authenticate('local-login',{
     failureRedirect: '/login'
 }));
 
+app.get('/logout', (req, res, next) => {
+    req.logout( 
+        function (err){
+            if (err) return next(err);
+            res.redirect('/')
+        }
+    );
+});
+
+app.post('/logout', (req, res, next) => {
+    req.logout( 
+        function (err){
+            if (err) return next(err);
+            res.redirect('/')
+        }
+    );
+});
+
 app.get('/', async (req, res)=> {
     res.render('pages/index.ejs')
 });
