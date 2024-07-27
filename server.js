@@ -3,7 +3,9 @@ import expressSession from 'express-session';
 import * as path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { schoolsController } from './controllers/controllers.js';
+
+import { schoolsController, usersController, gradesController, subjectsController} from './controllers/controllers.js';
+
 
 import { passport, checkAuthenticated, checkLoggedIn } from './utility/auth.js'
 
@@ -38,12 +40,18 @@ app.get('/dashboard', checkAuthenticated ,async (req,res) => {
 })
 
 app.get('/register', checkLoggedIn,  async (req, res)=> {
-    res.render ('pages/register.ejs', {})
+    const schoolsDb = await schoolsController.getAll();
+
+
+    res.render ('pages/register.ejs', {
+        schools: schoolsDb,
+    })
 });
 
-app.post('/register', (req,res)=>{
-    res.render('pages/register.ejs')
-});
+app.post('/register', passport.authenticate('local-register', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/register'
+}));
 
 app.get('/login', checkLoggedIn, async(req,res) => {
     res.render('pages/login.ejs')

@@ -50,11 +50,39 @@ passport.use(
     }
 ));
 
+passport.use(
+    'local-register',
+    new LocalStrategy({
+        usernameField: 'email',
+        passwordField: 'password',
+        passReqToCallback: true,
+    },
+    async (req, email, password, done) => {
 
+        try {
+            if (await usersController.getUserByEmail(email)) return done(null, false);
+
+            const userDb = await usersController.createUser({
+                name: req.body.name,
+                surname: req.body.surname,
+                email: email,
+                password: password,
+                age: req.body.age,
+                address: req.body.address,
+                schoolId: req.body.schoolId,
+            });
+            console.log(userDb)
+            
+            return done(null, userDb);
+        } catch (err) {
+            console.error(err)
+        }
+        
+    }
+));
 
 export {
     passport,
     checkAuthenticated,
     checkLoggedIn
-    
 }
