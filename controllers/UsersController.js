@@ -27,7 +27,8 @@ export class UsersController {
 
     async validPassword(password, userDb){
         try {
-            return await bcrypt.compare(password, userDb.password);
+            if (userDb) return await bcrypt.compare(password, userDb.password);
+            return false;
         } catch (err) {
             throw new Error(err);
         }
