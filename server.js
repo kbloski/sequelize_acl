@@ -5,6 +5,8 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { schoolsController } from './controllers/controllers.js';
 
+import { passport, checkAuthenticated, checkLoggedIn } from './utility/auth.js'
+
 const __dirname = dirname( fileURLToPath ( import.meta.url ));
 
 const app = express();
@@ -16,26 +18,45 @@ app.set('views', viewsPath);
 app.set('view engine', 'ejs');
 app.use(express.static('./public'));
 
+// *** Passport *** 
+app.use(expressSession({
+    secret: 'mY_s3creTT_C0D3',
+    resave: false,
+    saveUninitialized: true
+}));
+
+app.use( passport.initialize());
+app.use( passport.session());
+
+
+
+
+// *** Hosting ***
+
+app.get('/dashboard', checkAuthenticated ,async (req,res) => {
+    res.render('pages/dashboard.ejs')
+})
+
+app.get('/register', checkLoggedIn,  async (req, res)=> {
+    res.render ('pages/register.ejs', {})
+});
+
+app.post('/register', (req,res)=>{
+    res.render('pages/register.ejs')
+});
+
+app.get('/login', checkLoggedIn, async(req,res) => {
+    res.render('pages/login.ejs')
+});
+
+app.post('/login', passport.authenticate('local-login',{
+    successRedirect: '/dashboard',
+    failureRedirect: '/login'
+}));
+
 app.get('/', async (req, res)=> {
     res.render('pages/index.ejs')
 });
-
-app.get('/login', async (req, res)=> {
-    res.render('pages/login.ejs')
-});
-app.post('/login', async (req, res)=> {
-    res.render('pages/login.ejs')
-});
-
-app.get('/register', async (req, res)=> {
-    res.render ('pages/register.ejs', {})
-});
-app.post('/register', async (req, res)=> {
-    res.render ('pages/register.ejs', {})
-});
-app.get('/dashboard', async(req,res)=> {
-    res.render('pages/dashboard.ejs')
-})
 
 app.listen(3010, ()=>{
     console.log('Server started at port 3010')
