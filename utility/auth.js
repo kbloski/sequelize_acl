@@ -39,8 +39,11 @@ passport.use(
     async ( /* req,*/ email, password, done) => {
         try {
             const userExists = await usersController.getUserByEmail(email);
+
+            if (!userExists) return done(null, false);
             
-            if (!usersController.validPassword(password, userExists)) return done(null, false);
+            const validResoult = await usersController.validPassword(password, userExists);
+            if ( !validResoult ) return done(null, false);
             
             return done(null, userExists)
 
