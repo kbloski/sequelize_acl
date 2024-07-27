@@ -5,13 +5,16 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 import { schoolsController, usersController, gradesController, subjectsController} from './controllers/controllers.js';
-
+import { htmlHelper } from './helpers/htmlHelper.js';
 
 import { passport, checkAuthenticated, checkLoggedIn } from './utility/auth.js'
 
 const __dirname = dirname( fileURLToPath ( import.meta.url ));
 
 const app = express();
+
+// *** Add local properties for views
+app.locals.htmlHelper = htmlHelper; // dodanie lokalnego property dla widoków
 
 app.use( express.urlencoded( {extended: false}));
 
