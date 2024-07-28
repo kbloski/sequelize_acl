@@ -64,7 +64,7 @@ passport.use(
 
         try {
             if (await usersController.getUserByEmail(email)) return done(null, false);
-
+            console.log(req.body.name,'-----------------------')
             const userDb = await usersController.createUser({
                 name: req.body.name,
                 surname: req.body.surname,
