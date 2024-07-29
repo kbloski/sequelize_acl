@@ -38,8 +38,6 @@ app.use( passport.session());
 
 // *** Hosting ***
 
-
-
 app.get('/admin/users', checkAuthenticated ,async (req, res) => {
     const usersDb = await usersController.getAll();
 
