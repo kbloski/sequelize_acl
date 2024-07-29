@@ -4,6 +4,7 @@ import * as path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
+import { rolesArr } from './models/user_model.js';
 import { schoolsController, usersController, gradesController, subjectsController} from './controllers/controllers.js';
 import { htmlHelper } from './helpers/htmlHelper.js';
 
@@ -38,15 +39,40 @@ app.use( passport.session());
 
 
 // *** Hosting ***
-app.get('/admin/users/edit/:id', authRole, checkAuthenticated, async(req,res) => {
+app.get('/admin/users/edit/:id', checkAuthenticated, authRole,  async(req,res) => {
     res.render('pages/admin/users_edit.ejs', {user: req.user})
 })
 
-app.get('/admin/users/add', authRole, checkAuthenticated, async (req,res) => {
-    res.render('pages/admin/users_add.ejs', {user: req.user})
-})
 
-app.get('/admin/users', authRole, checkAuthenticated ,async (req, res) => {
+app.get('/admin/users/add', checkAuthenticated, authRole, async (req,res) => {
+
+    const schoolsDb = await schoolsController.getAll();
+    console.log(Array.isArray(rolesArr))
+    const roles = rolesArr.filter( role => role !== 'admin');
+    
+    res.render ('pages/admin/users_add.ejs', {
+        user: req.user,
+        schools: schoolsDb,
+        rolesArr: roles,
+    })
+});
+
+app.post('/admin/users/add', checkAuthenticated, authRole, async (req,res) => {
+    await usersController.createUser({
+        name: req.body.name,
+        surname: req.body.surname,
+        email: req.body.email,
+        password: req.body.password,
+        age: req.body.age,
+        role: req.body.role,
+        address: req.body.address,
+        schoolId: req.body.schoolId, 
+    });
+
+    redirect('/admin/users');
+});
+
+app.get('/admin/users', checkAuthenticated, authRole,  async (req, res) => {
     const usersDb = await usersController.getAll();
 
     res.render('pages/admin/users.ejs', { 
