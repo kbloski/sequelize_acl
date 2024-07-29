@@ -1,11 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users list</title>
-</head>
+<%- include('../partials/head', { title: 'Admin view users'}) %>
 <body>
-    Admin users
+    <%- include('../partials/navbar') %>
+    <h3>Users list</h3>
+    <p>
+        <% if (users) { %>
+            <table class="table">
+                <tr>
+                    <th>_id</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Address</th>
+                    <th>School_Id</th>
+                    <th>Role</th>
+                    <th>Edit</th>
+                    <!-- <th>Remove</th> -->
+                </tr>
+                <% for (const el of users){ %>
+                    <tr>
+                        <td><%= el.id %></td>
+                        <td><%= el.name %></td>
+                        <td><%= el.surname %></td>
+                        <td><%= el.email %></td>
+                        <td><%= el.age %></td>
+                        <td><%= el.address %></td>
+                        <td><%= el.schoolId %></td>
+                        <td><%= el.role %></td>
+                        <td><a href="/admin/users/edit/<%= el.id %>">Edit</a></td>
+                        <!-- <td><a href="/admin/users/delete/ <%= el.id %>">X</a></td> -->
+                    </tr>  
+                <% } %>
+                
+            </table>
+        <% }; %>
+    </p>
+
 </body>
 </html>
