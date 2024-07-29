@@ -8,7 +8,9 @@
 </head>
 <body>
     <h3>Dashboard</h3> 
-    <%- include("partials/navbar") %>
+    <%- include('partials/navbar', {user}) %>
+
+    
 
     <a href="/logout">Logout</a>
 </body>

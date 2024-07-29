@@ -7,7 +7,7 @@
 </head>
 <body>
     <h3>Login</h3>
-    <%- include("partials/navbar.ejs") %>
+    <%- include("partials/navbar.ejs", {user}) %>
 
     <form method="post" action="/login">
         Email: <input type="email" name="email">

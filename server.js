@@ -38,15 +38,27 @@ app.use( passport.session());
 
 // *** Hosting ***
 
+
+
+app.get('/admin/users', checkAuthenticated ,async (req, res) => {
+    const usersDb = await usersController.getAll();
+
+    res.render('pages/admin/users.ejs', { 
+        user: req.user, 
+        users: usersDb
+    });
+});
+
 app.get('/dashboard', checkAuthenticated ,async (req,res) => {
-    res.render('pages/dashboard.ejs')
+    res.render('pages/dashboard.ejs', {
+        user: req.user
+    })
 })
 
 app.get('/register', checkLoggedIn,  async (req, res)=> {
     const schoolsDb = await schoolsController.getAll();
-
-
     res.render ('pages/register.ejs', {
+        user: req.user,
         schools: schoolsDb,
     })
 });
@@ -57,7 +69,9 @@ app.post('/register', passport.authenticate('local-register', {
 }));
 
 app.get('/login', checkLoggedIn, async(req,res) => {
-    res.render('pages/login.ejs')
+    res.render('pages/login.ejs', {
+        user: req.user
+    })
 });
 
 app.post('/login', passport.authenticate('local-login',{
@@ -84,7 +98,9 @@ app.post('/logout', (req, res, next) => {
 });
 
 app.get('/', async (req, res)=> {
-    res.render('pages/index.ejs')
+    res.render('pages/index.ejs', {
+        user: req.user
+    })
 });
 
 app.listen(3010, ()=>{

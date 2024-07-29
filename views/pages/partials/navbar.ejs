@@ -1,7 +1,18 @@
 <div class="header">
     <nav>
         <li><a href="/">Homepage</a></li>
-        <li><a href='/login'>Login</a></li>
-        <li><a href="/register">Register</a></li>
+
+
+        <% if (user){ %>
+            <li><a href="/dashboard">Dashboard</a></li>
+        <% } else { %>
+            <li><a href='/login'>Login</a></li>
+            <li><a href="/register">Register</a></li>
+        <% } %>
+        <% if ( user && user.role == 'director'){ %>
+            <li> <a href="#">Users</a></li>
+            <li> <a href="#">Edit user</a></li>
+            <li> <a href="#">Add user</a></li>
+        <%} %>
     </nav>
 </div>
