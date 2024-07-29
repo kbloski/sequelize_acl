@@ -58,18 +58,20 @@ app.get('/admin/users/add', checkAuthenticated, authRole, async (req,res) => {
 });
 
 app.post('/admin/users/add', checkAuthenticated, authRole, async (req,res) => {
-    await usersController.createUser({
+    let userData = {
         name: req.body.name,
-        surname: req.body.surname,
         email: req.body.email,
         password: req.body.password,
-        age: req.body.age,
-        role: req.body.role,
-        address: req.body.address,
-        schoolId: req.body.schoolId, 
-    });
+    };
+    if (req.body.surname != '') userData.name = req.body.name;
+    if (req.body.age != '') userData.age = req.body.age;
+    if (req.body.address != '') userData.address = req.body.address;
+    if (req.body.schoolId != '') userData.schoolId = req.body.schoolId;
+    if (req.body.role != '') userData.role = req.body.role; 
+    
+    await usersController.createUser(userData);
 
-    redirect('/admin/users');
+    res.redirect('/admin/users');
 });
 
 app.get('/admin/users', checkAuthenticated, authRole,  async (req, res) => {
