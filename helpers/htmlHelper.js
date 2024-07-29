@@ -6,6 +6,7 @@ class HtmlHelper {
         if (id) idCode = `id='${id}'`;
 
         let html = ` <select name='${selectName}' ${idCode} class='${className}'>`;
+        html+= '\n<option disabled>-- Choices --</option>'
 
         for (const el of arr) {
             let data = '';
@@ -23,6 +24,7 @@ class HtmlHelper {
         if (id) idCode = `id='${id}'`;
 
         let html = `<select name='${selectName}' ${idCode} class='${className}'>`;
+        html+= '\n<option disabled>-- Choices --</option>'
 
         for (const str of arr) {
             let data = '';
