@@ -37,6 +37,13 @@ app.use( passport.session());
 
 
 // *** Hosting ***
+app.get('/admin/users/edit/:id', checkAuthenticated, async(req,res) => {
+    res.render('pages/admin/users_edit.ejs', {user: req.user})
+})
+
+app.get('/admin/users/add', checkAuthenticated, async (req,res) => {
+    res.render('pages/admin/users_add.ejs', {user: req.user})
+})
 
 app.get('/admin/users', checkAuthenticated ,async (req, res) => {
     const usersDb = await usersController.getAll();
