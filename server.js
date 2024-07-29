@@ -8,6 +8,7 @@ import { schoolsController, usersController, gradesController, subjectsControlle
 import { htmlHelper } from './helpers/htmlHelper.js';
 
 import { passport, checkAuthenticated, checkLoggedIn } from './utility/auth.js'
+import { authRole } from './utility/aclauth.js';
 
 const __dirname = dirname( fileURLToPath ( import.meta.url ));
 
@@ -37,15 +38,15 @@ app.use( passport.session());
 
 
 // *** Hosting ***
-app.get('/admin/users/edit/:id', checkAuthenticated, async(req,res) => {
+app.get('/admin/users/edit/:id', authRole, checkAuthenticated, async(req,res) => {
     res.render('pages/admin/users_edit.ejs', {user: req.user})
 })
 
-app.get('/admin/users/add', checkAuthenticated, async (req,res) => {
+app.get('/admin/users/add', authRole, checkAuthenticated, async (req,res) => {
     res.render('pages/admin/users_add.ejs', {user: req.user})
 })
 
-app.get('/admin/users', checkAuthenticated ,async (req, res) => {
+app.get('/admin/users', authRole, checkAuthenticated ,async (req, res) => {
     const usersDb = await usersController.getAll();
 
     res.render('pages/admin/users.ejs', { 
