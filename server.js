@@ -5,6 +5,7 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 import { rolesArr } from './models/user_model.js';
+import { User } from './models/user_model.js';
 import { schoolsController, usersController, gradesController, subjectsController} from './controllers/controllers.js';
 import { htmlHelper } from './helpers/htmlHelper.js';
 
@@ -40,14 +41,44 @@ app.use( passport.session());
 
 // *** Hosting ***
 app.get('/admin/users/edit/:id', checkAuthenticated, authRole,  async(req,res) => {
-    res.render('pages/admin/users_edit.ejs', {user: req.user})
-})
+    const schoolsDb = await schoolsController.getAll();
+    const roles = rolesArr.filter( role => role !== 'admin');
+   
+    const { id } = req.params;
+    const editUser = await usersController.getById(id);
+
+    res.render('pages/admin/users_edit.ejs', {
+        user: req.user,
+        editUser: editUser,
+        schools: schoolsDb,
+        rolesArr: roles
+    })
+});
+
+app.post('/admin/users/edit', async (req,res) => {
+    let userData = {
+        name: req.body.name,
+        email: req.body.email,
+        // password: req.body.password,
+        role: req.body.role,
+    };
+    if (req.body.surname) userData.name = req.body.name;
+    if (req.body.surname) userData.surname = req.body.name;
+    if (req.body.age) userData.age = req.body.age;
+    if (req.body.address) userData.address = req.body.address;
+    if (req.body.schoolId) userData.schoolId = req.body.schoolId;
+     
+    
+    await User.update(userData, { where: { id: req.body.id }});
+
+    res.redirect('/admin/users');
+});
 
 
 app.get('/admin/users/add', checkAuthenticated, authRole, async (req,res) => {
 
     const schoolsDb = await schoolsController.getAll();
-    console.log(Array.isArray(rolesArr))
+    // console.log(Array.isArray(rolesArr))
     const roles = rolesArr.filter( role => role !== 'admin');
     
     res.render ('pages/admin/users_add.ejs', {
@@ -63,7 +94,7 @@ app.post('/admin/users/add', checkAuthenticated, authRole, async (req,res) => {
         email: req.body.email,
         password: req.body.password,
     };
-    if (req.body.surname != '') userData.name = req.body.name;
+    if (req.body.surname != '') userData.surname = req.body.name;
     if (req.body.age != '') userData.age = req.body.age;
     if (req.body.address != '') userData.address = req.body.address;
     if (req.body.schoolId != '') userData.schoolId = req.body.schoolId;
