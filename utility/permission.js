@@ -5,7 +5,8 @@ const usersRoles = [
             { resource: '/admin/users', permissions: '*' },
             { resource: '/admin/users/add', permissions: '*' },
             { resource: '/admin/users/edit', permissions: '*' },
-            { resource: '/admin/users/edit/:id', permissions: '*'}
+            { resource: '/admin/users/edit/:id', permissions: '*'},
+            { resource: '/admin/schools', permissions: '*'}
         ]
     },
     {

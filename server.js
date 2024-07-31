@@ -40,6 +40,19 @@ app.use( passport.session());
 
 
 // *** Hosting ***
+app.get('/admin/schools', checkAuthenticated, authRole, async (req,res) => {
+    const schoolsDb = await schoolsController.getAll();
+    const directorsDb = await usersController.getAllUsersByRole('director');
+
+    res.render('pages/admin/schools.ejs', 
+        {
+            user: req.user,
+            schools: schoolsDb,
+            directors: directorsDb
+        }
+    )
+}) 
+
 app.get('/admin/users/edit/:id', checkAuthenticated, authRole,  async(req,res) => {
     const schoolsDb = await schoolsController.getAll();
     const roles = rolesArr.filter( role => role !== 'admin');
