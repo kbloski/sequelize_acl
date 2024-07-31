@@ -62,12 +62,13 @@ app.post('/admin/users/edit', async (req,res) => {
         // password: req.body.password,
         role: req.body.role,
     };
-    if (req.body.surname) userData.name = req.body.name;
-    if (req.body.surname) userData.surname = req.body.name;
-    if (req.body.age) userData.age = req.body.age;
-    if (req.body.address) userData.address = req.body.address;
-    if (req.body.schoolId) userData.schoolId = req.body.schoolId;
-     
+
+    
+    userData.name = (req.body.name) ? req.body.name : undefined;
+    userData.surname = (req.body.surname) ? req.body.surname : undefined;
+    userData.age = (req.body.age) ? req.body.age : undefined;
+    userData.address = (req.body.address) ? req.body.address : undefined;
+    userData.schoolId = (req.body.schoolId) ? req.body.schoolId : undefined;
     
     await User.update(userData, { where: { id: req.body.id }});
 
@@ -94,11 +95,11 @@ app.post('/admin/users/add', checkAuthenticated, authRole, async (req,res) => {
         email: req.body.email,
         password: req.body.password,
     };
-    if (req.body.surname != '') userData.surname = req.body.name;
-    if (req.body.age != '') userData.age = req.body.age;
-    if (req.body.address != '') userData.address = req.body.address;
-    if (req.body.schoolId != '') userData.schoolId = req.body.schoolId;
-    if (req.body.role != '') userData.role = req.body.role; 
+    if (req.body.surname) userData.surname = req.body.name;
+    if (req.body.age) userData.age = req.body.age;
+    if (req.body.address) userData.address = req.body.address;
+    if (req.body.schoolId) userData.schoolId = req.body.schoolId;
+    if (req.body.role) userData.role = req.body.role; 
     
     await usersController.createUser(userData);
 
