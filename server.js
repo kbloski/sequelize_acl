@@ -40,6 +40,7 @@ app.use( passport.session());
 
 
 // *** Hosting ***
+
 app.get('/admin/schools', checkAuthenticated, authRole, async (req,res) => {
     const schoolsDb = await schoolsController.getAll();
     const directorsDb = await usersController.getAllUsersByRole('director');
@@ -52,6 +53,28 @@ app.get('/admin/schools', checkAuthenticated, authRole, async (req,res) => {
         }
     )
 }) 
+
+app.get('/admin/schools/add', checkAuthenticated, authRole, async (req,res) => {
+    const directorsDb = await usersController.getAllUsersByRole('director');
+
+    res.render('pages/admin/schools_add.ejs', 
+        { 
+            user: req.user,
+            directors: directorsDb
+        }
+    )
+});
+
+app.post('/admin/schools/add', async (req,res) => {
+    const schoolData = {
+        name: req.body.name
+    }
+    schoolData.address = (req.body.address) ? req.body.address : undefined;
+    const schoolDb = await schoolsController.createSchool(schoolData);
+    const directorDb = await usersController.updateById( req.body.directorId, {schoolId: schoolDb.id})
+
+    res.redirect('/admin/schools');
+});
 
 app.get('/admin/users/edit/:id', checkAuthenticated, authRole,  async(req,res) => {
     const schoolsDb = await schoolsController.getAll();
