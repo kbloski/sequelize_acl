@@ -4,6 +4,7 @@ import * as path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
+import { rolesArr } from './models/user_model.js';
 import { schoolsController, usersController, gradesController, subjectsController} from './controllers/controllers.js';
 import { htmlHelper } from './helpers/htmlHelper.js';
 
@@ -38,15 +39,42 @@ app.use( passport.session());
 
 
 // *** Hosting ***
-app.get('/admin/users/edit/:id', authRole, checkAuthenticated, async(req,res) => {
+app.get('/admin/users/edit/:id', checkAuthenticated, authRole,  async(req,res) => {
     res.render('pages/admin/users_edit.ejs', {user: req.user})
 })
 
-app.get('/admin/users/add', authRole, checkAuthenticated, async (req,res) => {
-    res.render('pages/admin/users_add.ejs', {user: req.user})
-})
 
-app.get('/admin/users', authRole, checkAuthenticated ,async (req, res) => {
+app.get('/admin/users/add', checkAuthenticated, authRole, async (req,res) => {
+
+    const schoolsDb = await schoolsController.getAll();
+    console.log(Array.isArray(rolesArr))
+    const roles = rolesArr.filter( role => role !== 'admin');
+    
+    res.render ('pages/admin/users_add.ejs', {
+        user: req.user,
+        schools: schoolsDb,
+        rolesArr: roles,
+    })
+});
+
+app.post('/admin/users/add', checkAuthenticated, authRole, async (req,res) => {
+    let userData = {
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+    };
+    if (req.body.surname != '') userData.name = req.body.name;
+    if (req.body.age != '') userData.age = req.body.age;
+    if (req.body.address != '') userData.address = req.body.address;
+    if (req.body.schoolId != '') userData.schoolId = req.body.schoolId;
+    if (req.body.role != '') userData.role = req.body.role; 
+    
+    await usersController.createUser(userData);
+
+    res.redirect('/admin/users');
+});
+
+app.get('/admin/users', checkAuthenticated, authRole,  async (req, res) => {
     const usersDb = await usersController.getAll();
 
     res.render('pages/admin/users.ejs', { 

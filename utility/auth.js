@@ -65,16 +65,21 @@ passport.use(
         try {
             if (await usersController.getUserByEmail(email)) return done(null, false);
 
-            const userDb = await usersController.createUser({
+            console.log(req.body)
+
+          
+            let userData = {
                 name: req.body.name,
-                surname: req.body.surname,
-                email: email,
-                password: password,
-                age: req.body.age,
-                address: req.body.address,
-                schoolId: req.body.schoolId,
-            });
-            console.log(userDb)
+                email: req.body.email,
+                password: req.body.password,
+            };
+            if (req.body.surname != '') userData.name = req.body.name;
+            if (req.body.age != '') userData.name = req.body.name;
+            if (req.body.address != '') userData.name = req.body.name;
+            if (req.body.schoolId != '') userData.name = req.body.name;
+
+            const userDb = await usersController.createUser(userData);
+            console.log(userDb);
             
             return done(null, userDb);
         } catch (err) {
