@@ -29,10 +29,10 @@ const User = sequelize.define('User', {
         validate: {
             len: [1, 128],
             isEmail: true,
-            // async uniqueEmail (value){
-            //     const userDb = await this.constructor.findOne({where: {email: value}});
-            //     if (userDb) throw new Error('Email must be unique')
-            // }
+            async uniqueEmail (value){
+                const userDb = await this.constructor.findOne({where: {email: value}});
+                if (userDb) throw new Error('Email must be unique')
+            }
         }
     },
     password: {
