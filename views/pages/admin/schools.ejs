@@ -19,7 +19,7 @@
             <% let director = directors.filter( v => v.schoolId == school.id) %>
             <% directorFullName = (director[0]) ? director[0].name + ' ' + director[0].surname : 'brak'  %>
             <td><%= directorFullName %></td>
-            <td> <p style="text-decoration: line-through;">edit</p></td>
+            <td> <a href="/admin/schools/edit/<%= school.id %>">Edit</a></td>
         </tr>
         <% } %>
     </table>

@@ -41,6 +41,36 @@ app.use( passport.session());
 
 // *** Hosting ***
 
+app.get('/admin/schools/edit/:id', checkAuthenticated, authRole, async (req,res) => {
+    const {id} = req.params;
+    
+    const schoolDb = await schoolsController.getById(id)    
+    const directorsDb = await usersController.getAllUsersByRole('director');
+    
+    res.render('pages/admin/schools_edit.ejs', 
+        { 
+            user: req.user,
+            directors: directorsDb,
+            school: schoolDb
+        }
+    )
+});
+
+app.post('/admin/schools/edit', checkAuthenticated, authRole, async (req,res) => {
+    let schoolData =  {
+        name: req.body.name,
+    };
+    schoolData.address = (req.body.address) ? req.body.address : undefined;
+    await schoolsController.updateById(req.body.id, schoolData);
+    
+    const schoolDb = await schoolsController.getById( req.body.id );
+    const directorDb = await usersController.getById(req.body.directorId);
+
+    await usersController.updateById( req.body.directorId, {schoolId: schoolDb.id})
+
+    res.redirect('/admin/schools')
+});
+
 app.get('/admin/schools', checkAuthenticated, authRole, async (req,res) => {
     const schoolsDb = await schoolsController.getAll();
     const directorsDb = await usersController.getAllUsersByRole('director');
@@ -75,6 +105,7 @@ app.post('/admin/schools/add', async (req,res) => {
 
     res.redirect('/admin/schools');
 });
+
 
 app.get('/admin/users/edit/:id', checkAuthenticated, authRole,  async(req,res) => {
     const schoolsDb = await schoolsController.getAll();
