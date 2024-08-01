@@ -5,7 +5,7 @@
 
     <%- include("../partials/navbar.ejs", {user}) %>
     <% const selectSchoolHtml = htmlHelper.getSelectIdCodeFromArr(schools, 'schoolId', 'name', 'schoolId', 'form-control' ) %>
-    <% const selectRoles = htmlHelper.getSelectCodeFromArr(rolesArr, 'role', 'roleControl', 'form-control') %>
+    <% const selectRoles = htmlHelper.getSelectCodeFromArr(rolesArr, 'role', 'roleControl', 'form-control','student') %>
 
     <h3>Add user form</h3>
     <form action="/admin/users/add" method="POST">

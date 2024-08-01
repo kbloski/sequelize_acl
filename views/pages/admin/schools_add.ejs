@@ -1,0 +1,35 @@
+<%- include('../partials/head', { title: 'Add School'}) %>
+<body>
+    <h3>Admin panel</h3>
+    <%- include('../partials/navbar', { user}) %>
+ 
+    <h3>Add school:</h3>
+    <form action="/admin/schools/add" method="POST">
+        <div>
+            <label for="nameControl" class="form-label">Name: </label>
+            <input type="text" id='nameControl' name='name' class="form-control">
+        </div>
+        <div>
+            <label for="addressControl" class="form-label">Address: </label>
+            <input type="text" id="addressControl" name="address" class="form-control">
+        </div>
+        <div>
+            <label for="controlDirector" class="form-label">Director</label>
+            <select name="directorId" id="directorControl" class="form-control">
+                <option value=""></option>
+                <% for (const director of directors){ %>
+                    <option value="<%= director.id %>"  >
+                        <%= director.name %>
+                        <%= director.surname %>
+                    </option>
+                <% } %>
+            </select>
+        </div>
+        <div>
+            <button class="btn">Add</button>
+        </div>
+    </form>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>
