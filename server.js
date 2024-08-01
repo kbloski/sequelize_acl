@@ -119,7 +119,7 @@ app.get('/subjects/view/:id', checkAuthenticated, authRole, async(req,res) => {
     const {id} = req.params;
     if (!id) res.redirect('/subjects');
 
-    const subjectToView = await subjectsController.getById(id);
+    const subjectToView = await subjectsController.getByIdFullData(id);
     const schools = await schoolsController.getAll();
     const teachers = await usersController.getAllUsersByRole('teacher');
 

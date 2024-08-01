@@ -30,6 +30,26 @@ export class SubjectsController {
         return await Subject.findByPk(id);
     };
 
+    async getByIdFullData(id){
+        return await Subject.findByPk(id, {
+            include: [
+                {
+                    model: User, 
+                    include: [
+                        { model: School },
+                        {
+                            model: Grade,
+                            where: {
+                                subjectId: id // tylko oceny związane z przedmiotem o danym id
+                            }
+                        },
+                    ]
+                },
+                { model: User, as: 'teacher'}
+            ]
+        })
+    }
+
     async updateById(id, subjectData){
         const updatedSubject = await Subject.update({
             ...subjectData
