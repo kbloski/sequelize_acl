@@ -41,7 +41,7 @@ app.use( passport.session());
 
 
 // *** Hosting ***
-app.get('/grades',  checkLoggedIn, authRole,  async(req,res) => {
+app.get('/grades',  checkAuthenticated, authRole,  async(req,res) => {
     const grades = await gradesController.getAllFullData();
 
     res.render('pages/grades/index.ejs', {
@@ -49,6 +49,71 @@ app.get('/grades',  checkLoggedIn, authRole,  async(req,res) => {
         grades: grades
     })
 });
+
+app.get('/grades/add', checkAuthenticated, authRole, async (req,res) => {
+    const schools = await schoolsController.getAll();
+    const subjects = await subjectsController.getAll();
+    const teachers = await usersController.getAllUsersByRole('teacher');
+    const students = await usersController.getAllUsersByRole('student');
+
+    res.render('pages/grades/grade_add.ejs', {
+        user: req.user,
+        schools: schools,
+        subjects: subjects,
+        teachers: teachers,
+        students: students
+    })
+});
+
+app.post('/grades/add', checkAuthenticated, authRole, async (req,res) => {
+    const gradeDb = await gradesController.createGrade(req.body);
+
+    res.render('/grades')
+});
+
+app.get('/grades/edit/:id', checkAuthenticated, authRole, async (req,res) => {
+    const { id } = req.params;
+    if (!id) res.redirect('/grades');
+
+    const gradeToEdit = await gradesController.getById(id);
+    const schools = await schoolsController.getAll();
+    const subjects = await subjectsController.getAll();
+    const teachers = await usersController.getAllUsersByRole('teacher');
+    const students = await usersController.getAllUsersByRole('student');
+
+    res.render('pages/grades/grade_edit.ejs', {
+        user: req.user,
+        gradeToEdit: gradeToEdit,
+        subjects: subjects,
+        schools: schools,
+        teachers: teachers,
+        students: students
+    })
+    
+});
+
+app.post('/grades/edit/:id', checkAuthenticated, authRole, async (req,res) => {
+    const { id } = req.params;
+    if (!id) res.redirect('/grades')
+    
+    const updatedGradeDb = await gradesController.updateById(id, req.body);
+    
+    res.render('/grades');
+});
+
+app.get('/grades/view/:id', checkAuthenticated, authRole, async (req,res) => {
+    const { id } = req.params;
+    if (!id) res.redirect('/grades');
+
+    const gradeToView = await gradesController.getByIdFullData(id);
+
+    res.render('pages/grades/grade_view.ejs', {
+        user: req.user,
+        gradeToView: gradeToView
+    })
+    
+});
+
 
 app.get('/subjects/view/:id', checkAuthenticated, authRole, async(req,res) => {
     const {id} = req.params;
@@ -67,7 +132,7 @@ app.get('/subjects/view/:id', checkAuthenticated, authRole, async(req,res) => {
 
 });
 
-app.get('/subjects/edit/:id', /* checkAuthenticated, authRole, */ async (req,res) => {
+app.get('/subjects/edit/:id',  checkAuthenticated, authRole,  async (req,res) => {
     const {id} = req.params;
 
     const subjectEdit = await subjectsController.getById(id)
