@@ -9,7 +9,7 @@ function authRole(req, res, next){
         if (req.user.role === 'admin'){
             userRole = 'admin';
         } else if (req.user.role) {
-            userRole = 'user'
+            userRole = req.user.role
         }
     }
     
