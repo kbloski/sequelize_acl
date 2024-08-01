@@ -71,7 +71,7 @@ app.post('/grades/add', checkAuthenticated, authRole, async (req,res) => {
     res.redirect('/grades')
 });
 
-app.get('/grades/edit/:id', checkAuthenticated, authRole, async (req,res) => {
+app.get('/grades/edit/:id',  checkAuthenticated, authRole,  async (req,res) => {
     const { id } = req.params;
     if (!id) res.redirect('/grades');
 
@@ -98,7 +98,7 @@ app.post('/grades/edit/:id', checkAuthenticated, authRole, async (req,res) => {
     
     const updatedGradeDb = await gradesController.updateById(id, req.body);
     
-    res.render('/grades');
+    res.redirect('/grades');
 });
 
 app.get('/grades/view/:id', checkAuthenticated, authRole, async (req,res) => {

@@ -1,0 +1,38 @@
+<%- include('../partials/head', { title: 'Edit grade'}) %>
+<body>
+    <%- include('../partials/navbar', { user}) %>
+ 
+    <h3>Edit grade:</h3>
+    <form action="/grades/edit/<%= gradeToEdit.id %>" method="POST">
+        <div>
+            <label for="gradeControl" class="form-label">Grade: </label>
+            <input type="text" min="0" max="6" id='gradeControl' name='grade' value="<%= gradeToEdit.grade %>" class="form-control" required>
+        </div>
+        <div>
+            <label for="descriptionControl" class="form-label">Description: </label>
+            <input type="text" id="descriptionControl" name="description" value="<%= gradeToEdit.description %>" class="form-control">
+        </div>
+        <div>
+            <label for="studentControl" class="form-label">Student</label>
+            <%- htmlHelper.getSelectIdCodeFromArr(students, 'studentId', 'name', 'studentControl','form-control', gradeToEdit.studentId ) %>
+        </div>
+        <div>
+            <label for="subjectControl" class="form-label">Subject</label>
+            <%- htmlHelper.getSelectIdCodeFromArr(subjects, 'subjectId', 'name', 'subjectControl','form-control', gradeToEdit.subjectId) %>
+        </div>
+        <div>
+            <label for="teacherControl" class="form-label">Teacher</label>
+            <%- htmlHelper.getSelectIdCodeFromArr(teachers, 'teacherId', 'name', 'teacherControl', 'form-control', gradeToEdit.teacherId) %>
+        </div>
+        <div>
+            <label for="schoolControl" class="form-label">School</label>
+            <%- htmlHelper.getSelectIdCodeFromArr(schools, 'schoolId', 'name', 'schoolControl', 'form-control', gradeToEdit.schoolId) %>
+        </div>
+        <div>
+            <button class="btn">Edit</button>
+        </div>
+    </form>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>
