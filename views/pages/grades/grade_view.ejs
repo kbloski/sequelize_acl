@@ -1,0 +1,44 @@
+<%- include('../partials/head', { title: 'School View'}) %>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <h3>School:</h3>
+    <table class="table">
+        <tr>
+            <th>_id</th>
+            <td><%= gradeToView.id %></td>
+        </tr>
+        <tr>
+            <th>Grade</th>
+            <td><%= gradeToView.grade %></td>
+        </tr>
+        <tr>
+            <th>Description:</th>
+            <td><%= gradeToView.description %></td>
+        </tr>
+        <tr>
+            <th>Student</th>
+            <td><%= gradeToView.User.name %> <%= gradeToView.User.surname %></td>
+        </tr>
+        <tr>
+            <th>Subject</th>
+            <td><%= gradeToView.Subject.name %></td>
+        </tr>
+        <tr>
+            <th>Teacher</th>
+            <td><%= gradeToView.teacher.name %> <%= gradeToView.teacher.surname %></td>
+        </tr>
+        <tr>
+            <th>School</th>
+            <td><%= gradeToView.School.name %></td>
+        </tr>
+       
+    </table>
+    <a href="/grades/edit/<%= gradeToView.id %>">
+        <button class="btn">Edit subject</button>
+    </a>
+    
+
+    <%- include('../partials/footer') %>
+
+</body>
