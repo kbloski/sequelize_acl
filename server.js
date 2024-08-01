@@ -50,7 +50,7 @@ app.get('/grades',  checkAuthenticated, authRole,  async(req,res) => {
     })
 });
 
-app.get('/grades/add', checkAuthenticated, authRole, async (req,res) => {
+app.get('/grades/add', checkAuthenticated, authRole,  async (req,res) => {
     const schools = await schoolsController.getAll();
     const subjects = await subjectsController.getAll();
     const teachers = await usersController.getAllUsersByRole('teacher');
@@ -68,7 +68,7 @@ app.get('/grades/add', checkAuthenticated, authRole, async (req,res) => {
 app.post('/grades/add', checkAuthenticated, authRole, async (req,res) => {
     const gradeDb = await gradesController.createGrade(req.body);
 
-    res.render('/grades')
+    res.redirect('/grades')
 });
 
 app.get('/grades/edit/:id', checkAuthenticated, authRole, async (req,res) => {
