@@ -11,6 +11,7 @@ import { htmlHelper } from './helpers/htmlHelper.js';
 
 import { passport, checkAuthenticated, checkLoggedIn } from './utility/auth.js'
 import { authRole } from './utility/aclauth.js';
+import { Socket } from 'dgram';
 
 const __dirname = dirname( fileURLToPath ( import.meta.url ));
 
@@ -40,6 +41,80 @@ app.use( passport.session());
 
 
 // *** Hosting ***
+app.get('/subjects/view/:id', checkAuthenticated, authRole, async(req,res) => {
+    const {id} = req.params;
+    if (!id) res.redirect('/subjects');
+
+    const subjectToView = await subjectsController.getById(id);
+    const schools = await schoolsController.getAll();
+    const teachers = await usersController.getAllUsersByRole('teacher');
+
+    res.render('pages/subjects/subject_view.ejs', {
+        user: req.user,
+        subjectToView: subjectToView,
+        schools: schools,
+        teachers: teachers
+    })
+
+});
+
+app.get('/subjects/edit/:id', checkAuthenticated, authRole, async (req,res) => {
+    const {id} = req.params;
+
+    const subjectEdit = await subjectsController.getById(id)
+    const schools = await schoolsController.getAll();
+    const teachers = await usersController.getAllUsersByRole('teacher');
+    
+    res.render('pages/subjects/subject_edit.ejs', {
+        users: req.user,
+        subjectEdit: subjectEdit,
+        schools: schools,
+        teachers: teachers
+    })
+});
+
+app.post('/subjects/edit/:id', checkAuthenticated, authRole, async (req,res) => {
+    const { id } = req.params;
+    if (!id ) req.redirect('/subjects')
+
+    const updatedSubject = await subjectsController.updateById(id, req.body)
+
+    res.redirect('/subjects')
+});
+
+app.get('/subjects/add', checkAuthenticated, authRole, async (req,res) => {
+    const schools = await schoolsController.getAll();
+    const teachers = await usersController.getAllUsersByRole('teacher');
+
+    res.render('pages/subjects/subjects_add.ejs', 
+        { 
+            user: req.user,
+            schools: schools,
+            teachers: teachers
+        }
+    )
+});
+
+app.post('/subjects/add', checkAuthenticated, authRole, async (req,res) => {
+    const subjectsDb = await subjectsController.createSubject(req.body);
+    
+    res.redirect('/subjects');
+});
+
+app.get('/subjects', checkAuthenticated, authRole, async(req,res) => {
+    const subjects = await subjectsController.getAll();
+    const schools = await schoolsController.getAll();
+    const teachers = await usersController.getAllUsersByRole('teacher');
+    
+    res.render('pages/subjects/index.ejs', {
+        users: req.user,
+        subjects: subjects,
+        schools: schools,
+        teachers: teachers
+    })
+});
+
+
 
 app.get('/admin/schools/edit/:id', checkAuthenticated, authRole, async (req,res) => {
     const {id} = req.params;
