@@ -146,7 +146,7 @@ app.post('/admin/schools/edit', checkAuthenticated, authRole, async (req,res) =>
     res.redirect('/admin/schools')
 });
 
-app.get('/admin/schools/view/:id', /* checkAuthenticated, authRole, */ async (req,res) => {
+app.get('/admin/schools/view/:id',  checkAuthenticated, authRole,  async (req,res) => {
     const { id } = req.params;
     if (!id) res.redirect('/admin/schools')
 
