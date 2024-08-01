@@ -153,7 +153,7 @@ app.get('/admin/schools/view/:id', checkAuthenticated, authRole, async (req,res)
     const schoolsDb = await schoolsController.getAll();
     const directorsDb = await usersController.getAllUsersByRole('director');
 
-    res.render('pages/admin/schools.ejs', 
+    res.render('pages/admin/schools_view.ejs', 
         {
             user: req.user,
             schools: schoolsDb,
