@@ -101,13 +101,13 @@ app.post('/subjects/add', checkAuthenticated, authRole, async (req,res) => {
     res.redirect('/subjects');
 });
 
-app.get('/subjects', checkAuthenticated, authRole, async(req,res) => {
+app.get('/subjects',  checkAuthenticated, authRole,  async(req,res) => {
     const subjects = await subjectsController.getAll();
     const schools = await schoolsController.getAll();
     const teachers = await usersController.getAllUsersByRole('teacher');
     
     res.render('pages/subjects/index.ejs', {
-        users: req.user,
+        user: req.user,
         subjects: subjects,
         schools: schools,
         teachers: teachers

@@ -1,0 +1,42 @@
+<%- include('../partials/head', {title: 'Subjects'}) %> 
+<body>
+    <h3>Subjects list</h3>
+    <%- include('../partials/navbar', {user: user}) %>
+
+    <p>
+        <% if (subjects) { %>
+            <table class="table">
+            <tr>
+                <th>_id</th>
+                <th>Name</th>
+                <th>School</th>
+                <th>Teacher</th>
+                <th>Actions</th>
+            </tr>
+            <% for ( const sub of subjects) { %>
+               </tr>
+                    <td> <%= sub.id %> </td>
+                    <td> <%= sub.name %> </td>
+                    <td> <%= htmlHelper.getElValueFromArrById(schools, sub.id, 'name') %></td>
+                    <td> <%= htmlHelper.getElValueFromArrById(teachers, sub.teacherId, 'name') %></td>
+                    <td>
+                        <a href="/subjects/edit/<%= sub.id %>">Edit</a>
+                        <a href="/subjects/view/<%= sub.id %>">View</a>
+                    </td>
+                <tr> 
+            <% } %>
+            
+               
+                
+                
+            </tr>
+                
+            </table>
+            <a href="/subjects/add"><button class="btn">Add subject</button></a>
+        <% } %>
+    </p>
+    
+
+    <%- include('../partials/footer') %>
+</body>
+</html>
