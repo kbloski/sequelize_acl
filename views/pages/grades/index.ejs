@@ -25,8 +25,8 @@
                     <td> <%= grade.Subject.name %></td>
                     <td> <%= grade.School.name %></td>
                     <td>
-                        <a href="/grade/edit/<%= grade.id %>">Edit</a>
-                        <a href="/grade/view/<%= grade.id %>">View</a>
+                        <a href="/grades/edit/<%= grade.id %>">Edit</a>
+                        <a href="/grades/view/<%= grade.id %>">View</a>
                     </td>
                 <tr> 
             <% } %>
@@ -37,7 +37,7 @@
             </tr>
                 
             </table>
-            <a href="/grade/add"><button class="btn">Add grade</button></a>
+            <a href="/grades/add"><button class="btn">Add grade</button></a>
         <% } %>
     </p>
     
