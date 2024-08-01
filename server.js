@@ -41,6 +41,15 @@ app.use( passport.session());
 
 
 // *** Hosting ***
+app.get('/grades',  checkLoggedIn, authRole,  async(req,res) => {
+    const grades = await gradesController.getAllFullData();
+
+    res.render('pages/grades/index.ejs', {
+        user: req.user,
+        grades: grades
+    })
+});
+
 app.get('/subjects/view/:id', checkAuthenticated, authRole, async(req,res) => {
     const {id} = req.params;
     if (!id) res.redirect('/subjects');

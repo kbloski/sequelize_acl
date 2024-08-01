@@ -57,6 +57,7 @@ Grade.belongsTo(School, {
     foreignKey: 'schoolId'
 });
 
+await sequelize.sync({});
 
 export {
     User,

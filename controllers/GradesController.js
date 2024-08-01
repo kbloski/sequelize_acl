@@ -16,7 +16,7 @@ export class GradesController{
         })
     }
 
-    async createGrade(gradeData, studentDb, teacherDb, schoolDb){
+    async createGrade(gradeData, studentDb, teacherDb, subjectDb, schoolDb){
         const gradeDb = await Grade.create({
             ...gradeData
         });
@@ -24,6 +24,7 @@ export class GradesController{
         if (studentDb) await gradeDb.setUser(studentDb);
         if (teacherDb) await gradeDb.setTeacher(teacherDb);
         if (schoolDb) await gradeDb.setSchool(schoolDb);
+        if (subjectDb) await gradeDb.setSubject(subjectDb);
 
         return gradeDb;
     };
