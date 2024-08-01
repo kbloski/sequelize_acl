@@ -26,13 +26,13 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING(128),
         allowNull: false,
         // unique: true,
-        validate: {
+        validate: { 
             len: [1, 128],
             isEmail: true,
             async uniqueEmail (value){
                 const userDb = await this.constructor.findOne({where: {email: value}});
                 if (userDb) throw new Error('Email must be unique')
-            }
+            } // not working for update user
         }
     },
     password: {
