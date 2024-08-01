@@ -149,15 +149,15 @@ app.post('/admin/schools/edit', checkAuthenticated, authRole, async (req,res) =>
 app.get('/admin/schools/view/:id', checkAuthenticated, authRole, async (req,res) => {
     const { id } = req.params;
     if (!id) res.redirect('/admin/schools')
-        
-    const schoolsDb = await schoolsController.getAll();
-    const directorsDb = await usersController.getAllUsersByRole('director');
 
-    res.render('pages/admin/schools.ejs', 
+    const schoolDb = await usersController.getById(id);
+    const directorDb = await usersController.getById(schoolDb.directorId);
+
+    res.render('pages/admin/schools_view.ejs', 
         {
             user: req.user,
-            schools: schoolsDb,
-            directors: directorsDb
+            schoolToView: schoolDb,
+            directorToView: directorDb
         }
     )
 }) 
