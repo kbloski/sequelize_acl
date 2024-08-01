@@ -58,7 +58,7 @@ app.get('/subjects/view/:id', checkAuthenticated, authRole, async(req,res) => {
 
 });
 
-app.get('/subjects/edit/:id', checkAuthenticated, authRole, async (req,res) => {
+app.get('/subjects/edit/:id', /* checkAuthenticated, authRole, */ async (req,res) => {
     const {id} = req.params;
 
     const subjectEdit = await subjectsController.getById(id)
@@ -66,7 +66,7 @@ app.get('/subjects/edit/:id', checkAuthenticated, authRole, async (req,res) => {
     const teachers = await usersController.getAllUsersByRole('teacher');
     
     res.render('pages/subjects/subject_edit.ejs', {
-        users: req.user,
+        user: req.user,
         subjectEdit: subjectEdit,
         schools: schools,
         teachers: teachers
@@ -75,7 +75,7 @@ app.get('/subjects/edit/:id', checkAuthenticated, authRole, async (req,res) => {
 
 app.post('/subjects/edit/:id', checkAuthenticated, authRole, async (req,res) => {
     const { id } = req.params;
-    if (!id ) req.redirect('/subjects')
+    if (!id ) req.redirect('/subjects');
 
     const updatedSubject = await subjectsController.updateById(id, req.body)
 

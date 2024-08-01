@@ -1,0 +1,32 @@
+<%- include('../partials/head', { title: 'Edit subjet'}) %>
+<body>
+    <%- include('../partials/navbar', { user}) %>
+ 
+    <h3>Edit subject</h3>:</h3>
+
+    <form action="/subjects/edit/<%= subjectEdit.id %>" method="POST">
+        <input type="text" name="id" value="<%= subjectEdit.id %>" hidden>
+        <div>
+            <label for="nameControl" class="form-label">Name: </label>
+            <input type="text" id='nameControl' name='name' value="<%= subjectEdit.name %>" class="form-control">
+        </div>
+        <div>
+            <label for="descriptionControl" class="form-label">Description: </label>
+            <input type="text" id="descriptionControl" name="description" value="<%= subjectEdit.description %>" class="form-control">
+        </div>
+        <div>
+            <label for="controlDirector" class="form-label">Teacher</label>
+            <%- htmlHelper.getSelectIdCodeFromArr(teachers, 'teacherId', 'name', 'teacherControl', 'form-control', subjectEdit.teacherId ) %>
+        </div>
+        <div>
+            <label for="schoolControl" class="form-label">School</label>
+            <%- htmlHelper.getSelectIdCodeFromArr(schools, 'schoolId', 'name', 'schoolControl', 'form-control', subjectEdit.schoolId ) %>
+        </div>
+        <div>
+            <button class="btn">Edit</button>
+        </div>
+    </form>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>
