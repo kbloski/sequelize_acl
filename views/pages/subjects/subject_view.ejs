@@ -32,7 +32,45 @@
     <a href="/subjects/edit/<%= subjectToView.id %>">
         <button class="btn">Edit subject</button>
     </a>
-    
+    <!-- students list -->
+    <p>
+        <% const students = subjectToView['Users'] %>
+        <% if (students){ %>
+        <table class="table">
+            <tr>
+                <th>_id</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Role</th>
+                <th>School</th>
+                <th>Grade</th>
+                <th>Actions</th>
+            </tr>
+            <% console.log('---------', students) %>
+            <% for (const student of students) { %> 
+                <% console.log(student['Grades'], '------------------------') %>
+                <% console.log('-------------------------')%>
+
+                <% const grades = student['Grades'] %>
+                <% for (const grade of grades) { %> 
+
+                    <tr>
+                        <td><%= student.id %></td>
+                        <td><%= student.name %></td>
+                        <td><%= student.surname %></td>
+                        <td><%= student.role %></td>
+                        <td><%= student['School']?.name %></td>
+                        <td><%= grade.grade %></td>
+                        <td>
+                            <a href="/grades/view/<%= grade.id %>">View</a>
+                        </td>
+                    </tr>
+                <% } %>
+            <% } %>
+
+        </table>
+        <% } %>
+    </p>
 
     <%- include('../partials/footer') %>
 
