@@ -1,0 +1,31 @@
+<%- include('../partials/head', { title: 'School View'}) %>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <h3>School:</h3>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <td><%= schoolToView.name %></td>
+        </tr>
+        <tr>
+            <th>Address:</th>
+            <td><%= schoolToView.address %></td>
+        </tr>
+        <tr>
+            <th>Director</th>
+            <td> 
+                <% if (directorToView){ %>
+                    <%= directorToView.name %> <%= directorToView.surname %> 
+                <% } %>
+            </td>
+        </tr>
+    </table>
+    <a href="/admin/schools/edit/<%= schoolToView.id %>">
+        <button class="btn">Edit school</button>
+    </a>
+    
+
+    <%- include('../partials/footer') %>
+
+</body>
