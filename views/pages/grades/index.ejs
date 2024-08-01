@@ -1,0 +1,47 @@
+<%- include('../partials/head', {title: 'Grades'}) %> 
+<body>
+    <h3>Subjects list</h3>
+    <%- include('../partials/navbar', {user: user}) %>
+
+    <p>
+        <%= JSON.stringify(grades[0].user, null, 4) %>
+        <% if (grades) { %>
+            <table class="table">
+            <tr>
+                <th>_id</th>
+                <th>Grade</th>
+                <th>Description</th>
+                <th>Student</th>
+                <th>Subject</th>
+                <th>Teacher</th>
+                <th>Actions</th>
+            </tr>
+            <% for ( const grade of grades) { %>
+               </tr>
+                    <td> <%= grade.id %> </td>
+                    <td> <%= grade.grade %> </td>
+                    <td> <%= grade.description %></td>
+                    <td> <%= grade.User.name %> <%= grade.User.surname %> </td>
+                    <td> <%= grade.Subject.name %></td>
+                    <td> <%= grade.School.name %></td>
+                    <td>
+                        <a href="/grade/edit/<%= grade.id %>">Edit</a>
+                        <a href="/grade/view/<%= grade.id %>">View</a>
+                    </td>
+                <tr> 
+            <% } %>
+            
+               
+                
+                
+            </tr>
+                
+            </table>
+            <a href="/subjects/add"><button class="btn">Add subject</button></a>
+        <% } %>
+    </p>
+    
+
+    <%- include('../partials/footer') %>
+</body>
+</html>
