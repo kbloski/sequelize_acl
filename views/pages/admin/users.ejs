@@ -15,7 +15,6 @@
                     <th>School_Id</th>
                     <th>Role</th>
                     <th>Edit</th>
-                    <!-- <th>Remove</th> -->
                 </tr>
                 <% for (const el of users){ %>
                     <tr>
@@ -27,10 +26,12 @@
                         <td><%= el.address %></td>
                         <td><%= el.schoolId %></td>
                         <td><%= el.role %></td>
-                        <% if (user.id != el.id){ %>
-                            <td><a href="/admin/users/edit/<%= el.id %>">Edit</a></td>
-                        <% } %>
-                        <!-- <td><a href="/admin/users/delete/ <%= el.id %>">X</a></td> -->
+                        <td>
+                            <% if (user.id != el.id){ %>
+                                    <a href="/admin/users/edit/<%= el.id %>">Edit</a>
+                            <% } %>
+                            <a href="/admin/users/view/<%= el.id %>">View</a>
+                        </td>
                     </tr>  
                 <% } %>
                 

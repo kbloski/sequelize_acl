@@ -1,0 +1,50 @@
+<%- include('../partials/head', { title: 'User View'}) %>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <h3>User:</h3>
+    <table class="table">
+        <tr>
+            <th>_id</th>
+            <td><%= userToView.id %></td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td><%= userToView.name %></td>
+        </tr>
+        <tr>
+            <th>Surname</th>
+            <td><%= userToView.surname %></td>
+        </tr>
+        <tr>
+            <th>Age</th>
+            <td><%= userToView.age %></td>
+        </tr>
+        <tr>
+            <th>Address</th>
+            <td><%= userToView.address %></td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td><%= userToView.email %></td>
+        </tr>
+        <tr>
+            <th>Password</th>
+            <td>Hidden item</td>
+        </tr>
+        <tr>
+            <th>School</th>
+            <td><%= htmlHelper.getElValueFromArrById(schools,userToView.schoolId, 'name') %></td>
+        </tr>
+        
+       
+      
+    </table>
+    <a href="/admin/users/edit/<%= userToView.id %>">
+        <button class="btn">Edit subject</button>
+    </a>
+    
+
+    <%- include('../partials/footer') %>
+
+</body>

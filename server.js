@@ -199,6 +199,20 @@ app.post('/admin/schools/add', async (req,res) => {
 });
 
 
+app.get('/admin/users/view/:id',  checkAuthenticated, authRole,   async(req,res) => {   
+    const { id } = req.params;
+    if (!id) res.render('/admin/users');
+
+    const userToView = await usersController.getById(id);
+    const schoolsDb = await schoolsController.getAll();
+
+    res.render('pages/admin/users_view.ejs', {
+        user: req.user,
+        userToView: userToView,
+        schools: schoolsDb,
+    });
+});
+
 app.get('/admin/users/edit/:id', checkAuthenticated, authRole,  async(req,res) => {
     const schoolsDb = await schoolsController.getAll();
     const roles = rolesArr.filter( role => role !== 'admin');
