@@ -1,0 +1,29 @@
+<%- include('../partials/head', {title: 'School'}) %> 
+<body>
+    <h3>Schools list</h3>
+    <%- include('../partials/navbar', {user: user}) %>
+    
+    <table class="table">
+        <tr>
+            <th>_id</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Director</th>
+            <th>Edit</th>
+        </tr>
+        <% for(const school of schools){ %>
+        <tr>
+            <td><%= school.id %></td>
+            <td><%= school.name %></td>
+            <td><%= school.address %></td>
+            <% let director = directors.filter( v => v.schoolId == school.id) %>
+            <% directorFullName = (director[0]) ? director[0].name + ' ' + director[0].surname : 'brak'  %>
+            <td><%= directorFullName %></td>
+            <td> <a href="/admin/schools/edit/<%= school.id %>">Edit</a></td>
+        </tr>
+        <% } %>
+    </table>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

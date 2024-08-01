@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
-</head>
+<%- include("partials/head.ejs", { title: 'Homepage'}) %>
+
 <body>
     <h3>Hello from index.ejs</h3>
     <%- include("partials/navbar.ejs", {user}) %>
@@ -12,6 +7,6 @@
 
 
 
-
+    <%- include('partials/footer') %>
 </body>
 </html>

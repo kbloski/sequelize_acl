@@ -24,7 +24,7 @@ export class SchoolsController{
     }
 
     async getById(id){
-        await School.findByPk(id);
+        return await School.findByPk(id);
     }
 
     async updateById(id, schoolData){

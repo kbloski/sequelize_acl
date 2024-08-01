@@ -1,18 +1,27 @@
 <div class="header">
     <nav>
-        <li><a href="/">Homepage</a></li>
+        <ul>
+          <li><a href="/">Homepage</a></li>
 
 
-        <% if (user){ %>
-            <li><a href="/dashboard">Dashboard</a></li>
-        <% } else { %>
-            <li><a href='/login'>Login</a></li>
-            <li><a href="/register">Register</a></li>
-        <% } %>
-        <% if ( user && user.role == 'director'){ %>
-            <li> <a href="#">Users</a></li>
-            <li> <a href="#">Edit user</a></li>
-            <li> <a href="#">Add user</a></li>
-        <%} %>
+            <% if (user){ %>
+                <li><a href="/dashboard">Dashboard</a></li>
+            <% } else { %>
+                <li><a href='/login'>Login</a></li>
+                <li><a href="/register">Register</a></li>
+            <% } %>  
+        </ul>
     </nav>
+    <% if ( user && user.role == 'admin'){ %>
+    <nav>
+        Admin panel:
+        <ul>
+            <li> <a href="/admin/users">Users</a></li>
+            <li> <a href="/admin/users/add">Add user</a></li>
+            <li> <a href="/admin/schools">Schools</a></li>
+            <li> <a href="/admin/schools/add">Add school</a></li>
+        </ul>     
+    </nav>
+        
+    <%} %>
 </div>
