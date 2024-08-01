@@ -35,9 +35,12 @@ const permissions = {
         targetData.allows = targetData.allows.concat( sourceData.allows );
     },
     isResourceAllowedForUser: function (userRole, resource, method){
+        if (userRole === 'admin') return true;
+        
         const roleData  = this.usersRoles.find( v => v.role == userRole);
 
         if (!roleData) return false;
+        
 
         const resourceData = roleData.allows.find( v => v.resource == resource);
         if (!resourceData) return false;
