@@ -49,13 +49,14 @@ export class UsersController {
     async getByIdFullData(id) {
         return await User.findByPk(id, {
             include:[ 
-                // only subject with grades 
                 {
                     model: Subject,
                     include: [
+                        { model: School},
                         { model: User, as: 'teacher'},
                         { 
                             model: Grade,
+                            required: false, // not requred, dzięki temu będzie pobierać również przedmioty bez ocen
                             include: [
                                 { model: School},
                                 { model: User, as: 'teacher'} 
@@ -64,9 +65,9 @@ export class UsersController {
                                 studentId: id 
                             }
                         },
-                        { model: School}
                     ]
                 }, 
+                { model: School }
                 
             ]
         });
