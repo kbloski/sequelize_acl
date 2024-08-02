@@ -24,8 +24,6 @@
     <a href="/admin/schools/edit/<%= schoolToView.id %>">
         <button class="btn">Edit school</button>
     </a>
-
-    <hr>
     <p>
         <h3>Subjects</h3>
         <% const subjects = schoolToView.Subjects %>
@@ -53,7 +51,10 @@
             <% } %>
         </table>
     </p>
-    <hr>
+
+    <a href="/admin/schools/view/<%= schoolToView.id %>/addsubject" ><button class="btn">Add subject to school: <%= schoolToView.name %></button></a>
+    
+
     <p>
         <h3>Teachers</h3>
         <table class="table">
@@ -82,6 +83,8 @@
             <% } %>
         </table>
     </p>
+
+    <a href="/admin/schools/view/<%= schoolToView.id %>/addteacher" ><button class="btn">Add <b>teacher</b> to school: <%= schoolToView.name %></button></a>
     
 
     <%- include('../partials/footer') %>
