@@ -9,7 +9,7 @@
     <% const selectRoles = htmlHelper.getSelectCodeFromArr(rolesArr, 'role', 'roleControl', 'form-control', editUser.role) %>
 
     <h3>Edit user form:</h3>
-    <form action="/admin/users/edit" method="POST">
+    <form action="/admin/users/edit/<%= editUser.id %>" method="POST">
         <input type="text" name="id" hidden value="<%= editUser.id %>">
         <div>
             <label for="nameControl" class="form-label">Name:</label>

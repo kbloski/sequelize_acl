@@ -5,7 +5,7 @@
  
     <h3>Add school:</h3>
 
-    <form action="/admin/schools/edit" method="POST">
+    <form action="/admin/schools/edit/:id" method="POST">
         <input type="text" name="id" value="<%= school.id %>" hidden>
         <div>
             <label for="nameControl" class="form-label">Name: </label>

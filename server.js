@@ -285,7 +285,7 @@ app.get('/admin/schools/edit/:id', checkAuthenticated, authRole, async (req,res)
     )
 });
 
-app.post('/admin/schools/edit', checkAuthenticated, authRole, async (req,res) => {
+app.post('/admin/schools/edit/:id', checkAuthenticated, authRole, async (req,res) => {
     let schoolData =  {
         name: req.body.name,
     };
@@ -454,7 +454,7 @@ app.get('/admin/users/edit/:id', checkAuthenticated, authRole,  async(req,res) =
     })
 });
 
-app.post('/admin/users/edit', async (req,res) => {
+app.post('/admin/users/edit/:id', async (req,res) => {
     let userData = {
         name: req.body.name,
         email: req.body.email,
