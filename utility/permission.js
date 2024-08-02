@@ -28,7 +28,9 @@ const usersRoles = [
         role: 'teacher',
         priority: 3,
         allows: [
+            { resource: '/teacher/mysubjects', permissions: '*'},
             { resource: '/subjects', permissions: '*'},
+            { resource: '/subjects/view/:id/grades', permissions: '*'},
             { resource: '/subjects/view/:id', permissions: '*'},
             { resource: '/subjects/view/:subjectId/addstudent', permissions: '*'},
             { resource: '/subjects/view/:subjectId/student/:studentId/addgrade', permissions: '*'},
@@ -42,7 +44,8 @@ const usersRoles = [
         role: 'student',
         priority: 2,
         allows: [
-            { resource: '/dashboard', permissions: [ 'post', 'get ']}
+            { resource: '/dashboard', permissions: [ 'post', 'get ']},
+            { resource: '/student/mysubjects', permissions: [ 'post', 'get ']},
         ]
     },
     {
