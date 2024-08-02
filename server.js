@@ -123,8 +123,12 @@ app.get('/subjects/view/:subjectId/addstudent',  checkAuthenticated, authRole,  
     const subjectStudents =  await subjectsController.getStudentsForSubjectById( subjectId );
     const allStudents = await usersController.getAllUsersByRole('student');
 
-    const subjectsStudentsIds = new Set(subjectStudents.map( obj => obj.id));
-    const studentsDb = allStudents.filter( obj => !subjectsStudentsIds.has(obj.id) )
+    let studentsDb = allStudents;
+    if (subjectStudents){
+        const subjectsStudentsIds = new Set(subjectStudents.map( obj => obj.id));
+        studentsDb = allStudents.filter( obj => !subjectsStudentsIds.has(obj.id) )
+    }
+    
     
     res.render('pages/subjects/subject_addUser.ejs', {
         user: req.user,
