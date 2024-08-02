@@ -114,6 +114,23 @@ app.get('/grades/view/:id', checkAuthenticated, authRole, async (req,res) => {
     
 });
 
+app.get('/subjects/add/student', checkAuthenticated, authRole, async(req,res) => {
+    const subjectsDb = await subjectsController.getAll();
+    const studentsDb =  await usersController.getAllUsersByRole('student');
+    res.render('pages/subjects/subject_user.ejs', {
+        user: req.user,
+        subjects: subjectsDb,
+        students: studentsDb
+    })
+});
+
+app.post('/subjects/add/student', checkAuthenticated, authRole, async(req,res) => {
+    const studentDb = await usersController.getById(req.body.studentId);
+    const subjectDb = await subjectsController.getById(req.body.subjectId);
+
+    await subjectsController.addUserToSubject(studentDb, subjectDb);
+    res.redirect('/subjects')
+});
 
 app.get('/subjects/view/:id', checkAuthenticated, authRole, async(req,res) => {
     const {id} = req.params;
@@ -122,10 +139,12 @@ app.get('/subjects/view/:id', checkAuthenticated, authRole, async(req,res) => {
     const subjectToView = await subjectsController.getByIdFullData(id);
     const schools = await schoolsController.getAll();
     const teachers = await usersController.getAllUsersByRole('teacher');
+    const students = await subjectsController.getStudentsForSubjectById(id);
 
     res.render('pages/subjects/subject_view.ejs', {
         user: req.user,
         subjectToView: subjectToView,
+        students: students, 
         schools: schools,
         teachers: teachers
     })

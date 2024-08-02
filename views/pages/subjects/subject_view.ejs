@@ -1,6 +1,7 @@
 <%- include('../partials/head', { title: 'School View'}) %>
 <body>
     <%- include('../partials/navbar') %>
+    <% const studentsWithGrade = subjectToView['Users'] %>
 
     <h3>School:</h3>
     <table class="table">
@@ -34,9 +35,33 @@
     </a>
     <!-- students list -->
     <p>
-        <% const students = subjectToView['Users'] %>
+        <table class="table">
+            <caption>Students</caption>
+            <tr>
+                <th>_id</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>School</th>
+            </tr>
+            <% if (students) { %> 
+                <% for (const student of students){ %>
+                    <tr>
+                        <td> <%= student.id %> </td>
+                        <td> <%= student.name %> </td>
+                        <td> <%= student.surname %></td>
+                        <td> <%= htmlHelper.getElValueFromArrById(schools, subjectToView.schoolId, 'name') %> </td>
+                    </tr>
+                <% } %>
+            <%} %>
+        </table>
+        <a href="/subjects/add/student"><button class="btn">Add student to subject</button></a>
+    </p>
+
+    <!-- grades list -->
+    <p>
         <% if (students){ %>
         <table class="table">
+            <caption>All grades</caption>
             <tr>
                 <th>_id</th>
                 <th>Name</th>
@@ -46,10 +71,7 @@
                 <th>Grade</th>
                 <th>Actions</th>
             </tr>
-            <% console.log('---------', students) %>
-            <% for (const student of students) { %> 
-                <% console.log(student['Grades'], '------------------------') %>
-                <% console.log('-------------------------')%>
+            <% for (const student of studentsWithGrade) { %> 
 
                 <% const grades = student['Grades'] %>
                 <% for (const grade of grades) { %> 
@@ -67,7 +89,6 @@
                     </tr>
                 <% } %>
             <% } %>
-
         </table>
         <% } %>
     </p>

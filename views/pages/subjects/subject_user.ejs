@@ -1,0 +1,21 @@
+<%- include('../partials/head', { title: 'Add user to subject'} ) %>
+<body>
+    <%- include('../partials/navbar', { user }) %>
+    <form action="/subjects/add/student" method="post">
+        <div>
+            <label for="subjectControl" class="form-label">Subject</label>
+            <%- htmlHelper.getSelectIdCodeFromArr(subjects, 'subjectId', 'name', 'subjectControl', 'form-control') %>
+        </div>
+        <div>
+            <label for="studentControl" class="form-label">Student</label>
+            <%- htmlHelper.getSelectIdCodeFromArr(students, 'studentId', 'name', 'studentControl', 'form-control') %>
+        </div>
+        <button type="submit" class="btn">Add student to subject</button>
+        
+    </form>
+    
+
+    
+    <%- include('../partials/footer') %>
+</body>
+</html>
