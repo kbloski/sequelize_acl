@@ -1,18 +1,34 @@
 <%- include('../partials/head', { title: 'Add user to subject'} ) %>
 <body>
     <%- include('../partials/navbar', { user }) %>
-    <form action="/subjects/add/student" method="post">
-        <div>
-            <label for="subjectControl" class="form-label">Subject</label>
-            <%- htmlHelper.getSelectIdCodeFromArr(subjects, 'subjectId', 'name', 'subjectControl', 'form-control') %>
-        </div>
-        <div>
-            <label for="studentControl" class="form-label">Student</label>
-            <%- htmlHelper.getSelectIdCodeFromArr(students, 'studentId', 'name', 'studentControl', 'form-control') %>
-        </div>
-        <button type="submit" class="btn">Add student to subject</button>
-        
-    </form>
+
+    <a href="/subjects/view/<%= subject.id %>"><button class="btn">Go back</button></a>
+    <table class="table">
+        <tr>
+            <th>_id</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Actions</th>
+        </tr>
+        <% for (let p = 0; p < students.length; p++) { %>
+            <% const student = students[p]; %>
+
+            <% // console.log(JSON.stringify(student,null,4)) %>
+            <% if (student.subjectId == subject.id) { 1 }%>
+
+            <tr>
+                <td><%= student.id %></td>
+                <td><%= student.name %></td>
+                <td><%= student.surname %></td>
+                <td>
+                    <a href="/subjects/view/<%= subject.id %>/addstudent/<%= student.id %>">Add</a>
+                </td>
+            </tr>
+            
+        <%} %>
+    </table>
+
+   
     
 
     

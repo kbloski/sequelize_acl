@@ -114,22 +114,36 @@ app.get('/grades/view/:id', checkAuthenticated, authRole, async (req,res) => {
     
 });
 
-app.get('/subjects/add/student', checkAuthenticated, authRole, async(req,res) => {
-    const subjectsDb = await subjectsController.getAll();
-    const studentsDb =  await usersController.getAllUsersByRole('student');
+app.get('/subjects/view/:subjectId/addstudent',  checkAuthenticated, authRole,  async(req,res) => {
+    const { subjectId } = req.params;
+    if (!subjectId) res.redirect('/subjects');
+
+    const subjectDb = await subjectsController.getById(subjectId);
+    
+    const subjectStudents =  await subjectsController.getStudentsForSubjectById( subjectId );
+    const allStudents = await usersController.getAllUsersByRole('student');
+
+    const subjectsStudentsIds = new Set(subjectStudents.map( obj => obj.id));
+    const studentsDb = allStudents.filter( obj => !subjectsStudentsIds.has(obj.id) )
+    
     res.render('pages/subjects/subject_addUser.ejs', {
         user: req.user,
-        subjects: subjectsDb,
+        subject: subjectDb,
         students: studentsDb
     })
 });
 
-app.post('/subjects/add/student', checkAuthenticated, authRole, async(req,res) => {
-    const studentDb = await usersController.getById(req.body.studentId);
-    const subjectDb = await subjectsController.getById(req.body.subjectId);
+// add student to subject
+app.get('/subjects/view/:subjectId/addstudent/:studentId',  checkAuthenticated, authRole,  async(req,res) => {
+    const { subjectId, studentId} = req.params;
+    if (!studentId || !subjectId) res.redirect('/subjects')
+    
+    const subjectDb = await subjectsController.getById(subjectId);
+    const studentDb = await usersController.getById(studentId);
 
     await subjectsController.addUserToSubject(studentDb, subjectDb);
-    res.redirect('/subjects')
+
+    res.redirect('/subjects/view/'+ subjectId+'/addstudent/')
 });
 
 app.get('/subjects/view/:id', checkAuthenticated, authRole, async(req,res) => {
