@@ -48,26 +48,43 @@ export class UsersController {
 
     async getByIdFullData(id) {
         return await User.findByPk(id, {
-            include: {
-                model: Subject,
-                include: [
-                    { model: User, as: 'teacher'},
-                    { 
-                        model: Grade,
-                        include: [
-                            { model: School},
-                            { model: User, as: 'teacher'} 
-                        ],
-                        where: {
-                            studentId: id
-                        }
-                    },
-                    { model: School}
-                ]
-            }
+            include:[ 
+                {
+                    model: Subject,
+                    include: [
+                        { model: User, as: 'teacher'},
+                        { 
+                            model: Grade,
+                            include: [
+                                { model: School},
+                                { model: User, as: 'teacher'} 
+                            ],
+                            where: {
+                                studentId: id 
+                            }
+                        },
+                        { model: School}
+                    ]
+                }
+            ]
         });
-     
-    }
+    };
+
+    async getUsersSubjectsById(id){
+        const userDb =  await User.findByPk(
+            id,
+            {
+                include: { 
+                    model: Subject,
+                    include: [
+                        { model: User, as: 'teacher'},
+                        { model: School }
+                    ]
+                }
+            });
+         
+        return userDb?.Subjects; 
+    };
 
     async updateById(id, userData){
         const updatedUser = await User.update({
