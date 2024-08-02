@@ -117,7 +117,7 @@ app.get('/grades/view/:id', checkAuthenticated, authRole, async (req,res) => {
 app.get('/subjects/add/student', checkAuthenticated, authRole, async(req,res) => {
     const subjectsDb = await subjectsController.getAll();
     const studentsDb =  await usersController.getAllUsersByRole('student');
-    res.render('pages/subjects/subject_user.ejs', {
+    res.render('pages/subjects/subject_addUser.ejs', {
         user: req.user,
         subjects: subjectsDb,
         students: studentsDb
@@ -283,6 +283,44 @@ app.post('/admin/schools/view/:id/addsubject',  checkAuthenticated, authRole,  a
     const subjectDb = await subjectsController.createSubject(req.body);
 
     res.redirect('/admin/schools/view/'+id)
+}) 
+
+
+// add teacher to school
+app.get('/admin/schools/view/:id/addteacher',  /*  checkAuthenticated, authRole, */  async (req,res) => {
+    const { id } = req.params;
+    if (!id) res.redirect('/admin/schools')
+
+    const schoolDb = await schoolsController.getFullDataById(id);
+
+    res.render('pages/admin/schools/schools_addTeacher.ejs', 
+        {
+            user: req.user,
+            schoolId: schoolDb.id,
+            schoolToView: schoolDb,
+        }
+    )
+}) 
+
+app.post('/admin/schools/view/:id/addteacher', /*  checkAuthenticated, authRole, */  async (req,res) => {
+    const { id } = req.params;
+    if (!id) res.redirect('/admin/schools')
+
+        let userData = {
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+            schoolId: id,
+            role: req.body.role
+        };
+
+        if (req.body.surname) userData.surname = req.body.name;
+        if (req.body.age) userData.age = req.body.age;
+        if (req.body.address) userData.address = req.body.address;
+
+    const userDb = await usersController.createUser(userData);
+
+    res.redirect('/admin/schools/view/'+id);
 }) 
 
 

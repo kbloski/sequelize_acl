@@ -1,0 +1,43 @@
+<%- include('../../partials/head', { title: 'User View'}) %>
+<body>
+    <%- include('../../partials/navbar') %>
+
+
+    
+    <h3>Add user form</h3>
+    <form action="/admin/schools/view/<%= schoolId %>/addteacher" method="POST">
+        <input type="text" name="schoolId" value="<%= schoolId %>" hidden>
+        <input type="text" name="role" value="teacher" hidden>
+        <div>
+            <label for="nameControl" class="form-label">Name:</label>
+            <input type="text" re id="nameControl" class="form-control" name="name" required>
+        </div>
+        <div>
+            <label for="surnameControl" class="form-label">Surname:</label>
+            <input type="text" id="surnameControl" class="form-control" name="surname">
+        </div>
+        <div>
+            <label for="ageControl" class="form-label">Age</label>
+            <input type="number" min="1" max="130" value="" id="ageControl" class="form-control" name="age">
+        </div>
+        <div>
+            <label for="addressControl" class="form-label">Address</label>
+            <input type="text" id="addressControl" class="form-control" name="address">
+        </div>
+        <div>
+            <label for="emailControl" class="form-label">Email:</label>
+            <input type="email" id="emailControl" class="form-control" name="email" required>
+        </div>
+        <div>
+            <label for="passwordControl" class="form-label">Password:</label>
+            <input type="password" id="passwordControl" class="form-control" name="password" required>
+        </div>
+        
+        <button type="submit" class="btn">Add user</button>
+    </form>
+        
+  
+
+    <%- include('../../partials/footer') %>
+
+</body>
