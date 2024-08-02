@@ -303,10 +303,12 @@ app.post('/admin/schools/edit/:id', checkAuthenticated, authRole, async (req,res
 app.get('/admin/schools/view/:id',  checkAuthenticated, authRole,  async (req,res) => {
     const { id } = req.params;
     if (!id) res.redirect('/admin/schools')
+    
+    if (req.user.role === 'director' && req.user.schoolId != id) return res.redirect('/');
 
     const schoolDb = await schoolsController.getFullDataById(id);
     const directorsDb = await usersController.getAllUsersByRole('director');
-    
+
     const directorToView = directorsDb.filter(v => v.schoolId == schoolDb.id)[0];
     const teachers = await usersController.getAllUsersByRoleAndSchoolId('teacher', schoolDb.id);
 

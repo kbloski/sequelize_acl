@@ -1,10 +1,11 @@
 <div class="header">
     <nav>
         <ul>
-          <li><a href="/">Homepage</a></li>
+            
+           <li><a href="/">Homepage</a></li>
 
 
-            <% if (user){ %>
+            <% if (user && user.email){ %>
                 <li><a href="/dashboard">Dashboard</a></li>
             <% } else { %>
                 <li><a href='/login'>Login</a></li>
@@ -12,16 +13,36 @@
             <% } %>  
         </ul>
     </nav>
-    <% if ( user && user.role == 'admin'){ %>
+    
+    
+    
     <nav>
-        Admin panel:
+        <% if (user && user.email){ %>
         <ul>
-            <li> <a href="/admin/users">Users</a></li>
-            <li> <a href="/admin/schools">Schools</a></li>
-            <li> <a href="/subjects">Subjects</a></li>
-            <li> <a href="/grades">Grades</a></li>
-        </ul>     
+            <% if ( htmlHelper.hasAccessForUserRoleOrHigher( user.role , 'admin') ){ %>
+                <h4>Admin Panel</h4>
+                
+                    <li> <a href="/admin/schools">Schools</a></li>
+                    <li> <a href="/admin/users">Users</a></li>
+                    <li> <a href="/subjects">Subjects</a></li>
+                    <li> <a href="/grades">Grades</a></li>
+                     
+            <% } %> 
+            <% if ( htmlHelper.hasAccessForUserRoleOrHigher(user.role, 'director') ){ %>
+                <h4>Director Panel</h4>
+                <% if (user.schoolId) { %>
+                    <li> <a href="/admin/schools/view/<%= user.schoolId %>">My School</a></li>
+                <% } %> 
+            <% } %> 
+            <% if ( htmlHelper.hasAccessForUserRoleOrHigher(user.role, 'teacher') ){ %>
+                <h4>Teacher Panel</h4>
+                    <li> <a href="/subjects">Subjects</a></li>
+                    <li> <a href="/grades">Grades</a></li>
+                
+            <% } %> 
+        </ul>
+        <% } %>
     </nav>
         
-    <%} %>
+    
 </div>
