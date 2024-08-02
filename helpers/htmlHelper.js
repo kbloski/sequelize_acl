@@ -66,7 +66,7 @@ class HtmlHelper {
 
     hasAccessForUserRoleOrHigher( userRole, minRoleForAccess = 'admin') {
         const userPriority = permissions.getPriorityByRole(userRole);
-        const minRolePriorityToSeeLink = permissions.getPriorityByRole(minRoleForLink);
+        const minRolePriorityToSeeLink = permissions.getPriorityByRole(minRoleForAccess);
 
         if ( userPriority >= minRolePriorityToSeeLink){
             return true
