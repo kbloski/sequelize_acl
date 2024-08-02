@@ -19,8 +19,8 @@
             <% directorFullName = (director[0]) ? director[0].name + ' ' + director[0].surname : 'brak'  %>
             <td><%= directorFullName %></td>
             <td>
-                <a href="/admin/schools/edit/<%= school.id %>">Edit</a>
-                <a href="/admin/schools/view/<%= school.id %>">View</a>
+                <%- htmlHelper.getLinkCodeForUserRoleOrHigher(user.role, 'admin', '/admin/schools/edit/' + school.id, 'Edit') %>
+                <%- htmlHelper.getLinkCodeForUserRoleOrHigher(user.role, 'admin', '/admin/schools/View/' + school.id, 'View') %>
             </td>
             
         </tr>

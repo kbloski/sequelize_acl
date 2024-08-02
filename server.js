@@ -306,6 +306,7 @@ app.get('/admin/schools/view/:id',  checkAuthenticated, authRole,  async (req,re
 
     const schoolDb = await schoolsController.getFullDataById(id);
     const directorsDb = await usersController.getAllUsersByRole('director');
+    
     const directorToView = directorsDb.filter(v => v.schoolId == schoolDb.id)[0];
     const teachers = await usersController.getAllUsersByRoleAndSchoolId('teacher', schoolDb.id);
 
