@@ -24,6 +24,64 @@
     <a href="/admin/schools/edit/<%= schoolToView.id %>">
         <button class="btn">Edit school</button>
     </a>
+
+    <hr>
+    <p>
+        <h3>Subjects</h3>
+        <% const subjects = schoolToView.Subjects %>
+        <table class="table">
+            <tr>
+                <th>_id</th>
+                <th>Name</th>
+                <th>Teacher</th>
+                <th>Actions</th>
+            </tr>
+            <% if (subjects) { %>
+                <% for (let i = 0; i < subjects.length; i++) { %>
+                    
+                    <% const subject = subjects[i] %>
+                    <tr>
+                        <td><%= subject.id %></td>
+                        <td><%= subject.name %></td>
+                        <td><%= subject['teacher']?.name + ' ' + subject['teacher']?.surname %></td>
+                        <td>
+                            <a href="/subjects/view/<%= subject.id %>">View</a>
+                        </td>
+                    </tr>
+                    
+                <% } %>
+            <% } %>
+        </table>
+    </p>
+    <hr>
+    <p>
+        <h3>Teachers</h3>
+        <table class="table">
+            <tr>
+                <th>_id</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+            <% if (teachers) { %>
+                <% for (let i = 0; i < teachers.length; i++) { %>
+                    
+                    <% const teacher = teachers[i] %>
+                    <tr>
+                        <td><%= teacher.id %></td>
+                        <td><%= teacher.name %></td>
+                        <td><%= teacher.surname %></td>
+                        <td><%= teacher.role %></td>
+                        <td>
+                            <a href="/admin/users/view/<%= teacher.id %>">View</a>
+                        </td>
+                    </tr>
+                    
+                <% } %>
+            <% } %>
+        </table>
+    </p>
     
 
     <%- include('../partials/footer') %>

@@ -44,41 +44,43 @@
         <button class="btn">Edit subject</button>
     </a>
 
-    <% const userSubjects = userToView?.Subjects %>
-    <table class="table">
-        <caption>User's (<%= userToView.name + ' ' + userToView.surname %>) Grades:</caption>
-        <tr>
-            <th>_id</th>
-            <th>Subject</th>
-            <th>Grades</th>
-            <th>Actions</th>
-        </tr>
-        <% if (userSubjects) { %>
-            <% for (const sub of userSubjects) { %>
-                <tr>   
-                    <td> <%= sub.id %> </td>
-                    <td> <%= sub.name %> </td>
-                    
-                    <td> 
-                        <% if (sub.Grades) { %>
-                            <% for (let p = 0; p < sub.Grades.length; p++) { %>
-                                
-                               <b> <%= sub.Grades[p].grade %> </b> ,
+    <% if (userToView.role == 'student') { %>
 
-                            <% } %>
-                        <%} %>
-                    </td>
-                    <td>
-                        <a href="/subjects/view/<%= sub.id %>">View</a> 
-                    </td>                    
-                </tr>   
-            <% }%>
-        <% } %>
-    </table>
-    <p>
-        <h3></h3>
-    </p>
-    
+        <% const userSubjects = userToView?.Subjects %>
+        <table class="table">
+            <caption>User's (<%= userToView.name + ' ' + userToView.surname %>) Grades:</caption>
+            <tr>
+                <th>_id</th>
+                <th>Subject</th>
+                <th>Grades</th>
+                <th>Actions</th>
+            </tr>
+            <% if (userSubjects) { %>
+                <% for (const sub of userSubjects) { %>
+                    <tr>   
+                        <td> <%= sub.id %> </td>
+                        <td> <%= sub.name %> </td>
+                        
+                        <td> 
+                            <% if (sub.Grades) { %>
+                                <% for (let p = 0; p < sub.Grades.length; p++) { %>
+                                    
+                                <b> <%= sub.Grades[p].grade %> </b> ,
+
+                                <% } %>
+                            <%} %>
+                        </td>
+                        <td>
+                            <a href="/subjects/view/<%= sub.id %>">View</a> 
+                        </td>                    
+                    </tr>   
+                <% }%>
+            <% } %>
+        </table>
+        <p>
+            <h3></h3>
+        </p>
+    <% } %>
 
     <%- include('../partials/footer') %>
 

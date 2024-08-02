@@ -243,15 +243,17 @@ app.get('/admin/schools/view/:id',  checkAuthenticated, authRole,  async (req,re
     const { id } = req.params;
     if (!id) res.redirect('/admin/schools')
 
-    const schoolDb = await schoolsController.getById(id);
+    const schoolDb = await schoolsController.getFullDataById(id);
     const directorsDb = await usersController.getAllUsersByRole('director');
-    const directorToView = directorsDb.filter(v => v.schoolId == schoolDb.id)[0]
+    const directorToView = directorsDb.filter(v => v.schoolId == schoolDb.id)[0];
+    const teachers = await usersController.getAllUsersByRoleAndSchoolId('teacher', schoolDb.id);
 
     res.render('pages/admin/schools_view.ejs', 
         {
             user: req.user,
             schoolToView: schoolDb,
-            directorToView: directorToView
+            directorToView: directorToView,
+            teachers: teachers
         }
     )
 }) 
