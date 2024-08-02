@@ -170,7 +170,7 @@ app.get('/subjects/view/:id', checkAuthenticated, authRole, async(req,res) => {
 });
 
 // add grade to student in subject
-app.get('/subjects/view/:subjectId/student/:studentId/addgrade', async (req,res) => {
+app.get('/subjects/view/:subjectId/student/:studentId/addgrade', checkAuthenticated, authRole, async (req,res) => {
     const { subjectId, studentId} = req.params;
     if (!subjectId || !studentId) res.redirect('/subjects');
     
@@ -191,7 +191,7 @@ app.get('/subjects/view/:subjectId/student/:studentId/addgrade', async (req,res)
     })
 });
 
-app.post('/subjects/view/:subjectId/student/:studentId/addgrade', async (req,res) => {
+app.post('/subjects/view/:subjectId/student/:studentId/addgrade', checkAuthenticated, authRole, async (req,res) => {
     const { subjectId, studentId} = req.params;
     if ( !studentId || !subjectId ) res.redirect('/subjects');
 
@@ -348,7 +348,7 @@ app.post('/admin/schools/view/:id/addsubject',  checkAuthenticated, authRole,  a
 
 
 // add teacher to school
-app.get('/admin/schools/view/:id/addteacher',  /*  checkAuthenticated, authRole, */  async (req,res) => {
+app.get('/admin/schools/view/:id/addteacher',   checkAuthenticated, authRole,   async (req,res) => {
     const { id } = req.params;
     if (!id) res.redirect('/admin/schools')
 
@@ -363,7 +363,7 @@ app.get('/admin/schools/view/:id/addteacher',  /*  checkAuthenticated, authRole,
     )
 }) 
 
-app.post('/admin/schools/view/:id/addteacher', /*  checkAuthenticated, authRole, */  async (req,res) => {
+app.post('/admin/schools/view/:id/addteacher',   checkAuthenticated, authRole,   async (req,res) => {
     const { id } = req.params;
     if (!id) res.redirect('/admin/schools')
 
