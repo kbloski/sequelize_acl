@@ -14,6 +14,15 @@ export class UsersController {
         })
     }
 
+    async getAllUsersByRoleAndSchoolId(role, schoolId){
+        return await User.findAll({
+            where: {
+                role: role,
+                schoolId: schoolId
+            }
+        })
+    }
+
     async createUser(userData, schoolDb){
         const salt = await bcrypt.genSalt(10);
         userData.password = await bcrypt.hash(userData.password, salt);
