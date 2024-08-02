@@ -4,7 +4,7 @@ export class SchoolsController{
     async getAll(){
         return await School.findAll({});
     }
-
+    
     async createSchool(schoolData, directorDb){
         const schoolDb = await School.create({
             ...schoolData
@@ -25,6 +25,19 @@ export class SchoolsController{
 
     async getById(id){
         return await School.findByPk(id);
+    }
+
+    async getFullDataById(id){
+        return await School.findByPk(id, {
+            include: [
+                { 
+                    model: Subject,
+                    include: [
+                        { model: User, as: 'teacher'}
+                    ]
+                }
+            ]
+        })
     }
 
     async updateById(id, schoolData){
