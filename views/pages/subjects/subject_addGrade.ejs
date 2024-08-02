@@ -1,0 +1,47 @@
+<%- include('../partials/head', { title: 'Add grade to subject and student'} ) %>
+<body>
+    <%- include('../partials/navbar', { user }) %>
+
+
+    <h3>Add grade:</h3>
+    <table class="table">
+        <tr>
+            <th>School</th>
+            <td><%= school.name %></td>
+        </tr>
+        <tr>
+            <th>Subject</th>
+            <td><%= subject.name %></td>
+        </tr>
+        <tr>
+            <th>Student</th>
+            <td><%= student.name + ' ' + student.surname %></td>
+        </tr>
+        
+    </table>
+
+    <form action="/subjects/view/<%= subject.id %>/student/<%= student.id %>/addgrade" method="POST">
+        <input type="text" name="subjectId" value="<%= subject.id %>"  hidden>
+        <input type="text" name="studentId" value="<%= student.id %>"  hidden>
+        <input type="text" name="schoolId" value="<%= school.id %>" hidden>
+        <div>
+            <label for="gradeControl" class="form-label">Grade: </label>
+            <input type="text" min="0" max="6" id='gradeControl' name='grade' class="form-control" required>
+        </div>
+        <div>
+            <label for="descriptionControl" class="form-label">Description: </label>
+            <input type="text" id="descriptionControl" name="description" class="form-control">
+        </div>
+        <div>
+            <label for="teacherControl" class="form-label">Teacher</label>
+            <%- htmlHelper.getSelectIdCodeFromArr(teachers, 'teacherId', 'name', 'teacherControl', 'form-control') %>
+        </div>
+        <div>
+            <button class="btn">Add</button>
+        </div>
+    </form>
+
+    
+    <%- include('../partials/footer') %>
+</body>
+</html>
