@@ -258,6 +258,35 @@ app.get('/admin/schools/view/:id',  checkAuthenticated, authRole,  async (req,re
     )
 }) 
 
+// add subject to school
+app.get('/admin/schools/view/:id/addsubject',  checkAuthenticated, authRole,  async (req,res) => {
+    const { id } = req.params;
+    if (!id) res.redirect('/admin/schools')
+
+    const schoolDb = await schoolsController.getFullDataById(id);
+    const teachers = await usersController.getAllUsersByRoleAndSchoolId('teacher', schoolDb.id);
+
+    res.render('pages/admin/schools/schools_addSubject.ejs', 
+        {
+            user: req.user,
+            schoolId: schoolDb.id,
+            schoolToView: schoolDb,
+            teachers: teachers
+        }
+    )
+}) 
+
+app.post('/admin/schools/view/:id/addsubject',  checkAuthenticated, authRole,  async (req,res) => {
+    const { id } = req.params;
+    if (!id) res.redirect('/admin/schools')
+
+    const subjectDb = await subjectsController.createSubject(req.body);
+
+    res.redirect('/admin/schools/view/'+id)
+}) 
+
+
+
 app.get('/admin/schools', checkAuthenticated, authRole, async (req,res) => {
     const schoolsDb = await schoolsController.getAll();
     const directorsDb = await usersController.getAllUsersByRole('director');

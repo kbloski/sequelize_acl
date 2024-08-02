@@ -1,0 +1,29 @@
+<%- include('../../partials/head', { title: 'User View'}) %>
+<body>
+    <%- include('../../partials/navbar') %>
+
+    <h3>Add subject</h3>
+    <form action="/admin/schools/view/<%= schoolId %>/addsubject" method="post">
+            <input type="text" name="schoolId" value="<%= schoolId %>" hidden>
+
+            <div>
+                <label for="nameControl" class="form-label">Name: </label>
+                <input type="text" id='nameControl' name='name' class="form-control" requ>
+            </div>
+            <div>
+                <label for="descriptionControl" class="form-label">Description: </label>
+                <input type="text" id="descriptionControl" name="description" class="form-control">
+            </div>
+            <div>
+                <label for="teacherControl" class="form-label">Teacher</label>
+                <%- htmlHelper.getSelectIdCodeFromArr(teachers, 'teacherId', 'name', 'teacherControl', 'form-control') %>
+            </div>
+            <div>
+                <button class="btn">Add</button>
+            </div>
+        
+    </form>
+
+    <%- include('../../partials/footer') %>
+
+</body>
