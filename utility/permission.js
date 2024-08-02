@@ -4,9 +4,10 @@ const usersRoles = [
         priority: 5,
         allows: [
            
-            { resource: '/admin/schools', permissions: '*'},
+            
             { resource: '/admin/schools/add', permissions: '*'},
             { resource: '/admin/schools/edit/:id', permissions: "*" },
+            { resource: '/admin/schools', permissions: '*'},
         ]
     },
     {
@@ -84,7 +85,8 @@ const permissions = {
         return false;
     },
     getPriorityByRole: function(role){
-        const user = this.userRole.find( v => v.role === role);
+
+        const user = this.usersRoles.find( v => v.role === role);
         if (user) return user.priority;
         return -1;
     }

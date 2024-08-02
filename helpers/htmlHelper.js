@@ -1,5 +1,9 @@
+import { permissions } from "../utility/permission.js";
+
+
 class HtmlHelper {
 
+    
     getSelectIdCodeFromArr(arr, selectName, propertyToShow, id, className, selectedId = -1){
         let idCode = '';
 
@@ -42,7 +46,34 @@ class HtmlHelper {
             if (el.id == id) return el[propertyToShow];
         };
         return null;
-    }   
+    }
+    
+    getLinkCodeForUserRoleOrHigher(
+        userRole,
+        minRoleForLink = 'admin',
+        href,
+        linkText,
+        className =''
+    ){
+        const userPriority = permissions.getPriorityByRole(userRole);
+        const minRolePriorityToSeeLink = permissions.getPriorityByRole(minRoleForLink);
+
+        if ( userPriority >= minRolePriorityToSeeLink){
+            return `<a href='${href}' class='${className}'>${linkText}</a>`
+        }
+        return '';
+    }
+
+    hasAccessForUserRoleOrHigher( userRole, minRoleForAccess = 'admin') {
+        const userPriority = permissions.getPriorityByRole(userRole);
+        const minRolePriorityToSeeLink = permissions.getPriorityByRole(minRoleForLink);
+
+        if ( userPriority >= minRolePriorityToSeeLink){
+            return true
+        }
+        return false
+    }
+
 };
 
 const htmlHelper = new HtmlHelper();
