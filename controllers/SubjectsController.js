@@ -50,6 +50,18 @@ export class SubjectsController {
         })
     }
 
+    async getStudentsForSubjectById(id){
+        const subjectDb = await Subject.findByPk(id, {
+            include: [
+                {
+                    model: User,
+                    where: { role: 'student'}
+                }
+            ]
+        })
+        return subjectDb?.Users
+        }
+
     async updateById(id, subjectData){
         const updatedSubject = await Subject.update({
             ...subjectData
@@ -60,4 +72,5 @@ export class SubjectsController {
         return await updatedSubject;
     };
 
+    
 };

@@ -46,6 +46,26 @@ export class UsersController {
         return await User.findByPk(id);
     }
 
+    // async getByIdFullData(id) {
+    //     return await User.findByPk(id, {
+    //         model: Subject,
+    //         include: [
+    //             { model: User, as: 'teacher' },
+    //             {
+    //                 model: Grade,
+    //                 include: [
+    //                     { model: School },
+    //                     { model: User, as: 'teacher'}
+    //                 ],
+    //                 where: {
+    //                     studentId: id // ocena tylko dla usera o danym id
+    //                 }
+    //             },
+    //             { model: School }
+    //         ]
+    //     })
+    // }
+
     async updateById(id, userData){
         const updatedUser = await User.update({
             ...userData
@@ -54,7 +74,7 @@ export class UsersController {
                 id: id
             }
         }) 
-    }
+    };
 
     async getUserByEmail(email){
         return await User.findOne({where: { email: email}})
