@@ -58,7 +58,7 @@ export class GradesController{
     async getGradesByStudentId(studentId) {
         return await Grade.findOne({
             where: {
-                id: id
+                id: studentId
             },
             include: [
                 { model: User},
