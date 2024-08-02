@@ -296,13 +296,16 @@ app.get('/admin/users/view/:id',  checkAuthenticated, authRole,   async(req,res)
     const { id } = req.params;
     if (!id) res.render('/admin/users');
 
-    const userToView = await usersController.getById(id);
-    const schoolsDb = await schoolsController.getAll();
+    
 
+    const userToView = await usersController.getByIdFullData(id);
+    const schoolsDb = await schoolsController.getAll();
+    const grades = await gradesController.getGradesByStudentId(id);
     res.render('pages/admin/users_view.ejs', {
         user: req.user,
         userToView: userToView,
         schools: schoolsDb,
+        grades: grades
     });
 });
 
