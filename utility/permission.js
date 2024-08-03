@@ -1,3 +1,5 @@
+import { resolveInclude } from "ejs";
+
 const usersRoles = [
     {
         role: 'admin',
@@ -28,6 +30,7 @@ const usersRoles = [
         role: 'teacher',
         priority: 3,
         allows: [
+            { resource: '/subjects/view/:subjectId/addstudent/:studentId', permissions: '*'},
             { resource: '/teacher/mysubjects', permissions: '*'},
             { resource: '/subjects', permissions: '*'},
             { resource: '/subjects/view/:id/grades', permissions: '*'},
