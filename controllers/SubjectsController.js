@@ -1,4 +1,5 @@
 import { User, School, Subject, Grade} from '../models/schemas.js';
+import { Op } from 'sequelize';
 
 export class SubjectsController {
     async getAll(){
@@ -48,6 +49,64 @@ export class SubjectsController {
                 { model: User, as: 'teacher'}
             ]
         })
+    }
+
+    async getTeacherSubjects(teacherId) {
+        return await Subject.findAll(
+            {
+                where: { 
+                teahcerId: teacherId
+            }, 
+            include: [
+                { 
+                    model: User, 
+                    include: { model: School }
+                }
+            ]
+        }
+        )
+    };
+
+    async getStudentsSubject(studentId){
+        return await Subject.findAll({
+           
+            include: [
+                { 
+                    model: User, 
+                    where: {
+                        id: studentId
+                    },
+                    include: [
+                        { model: School},
+                        { 
+                            model: Grade,
+                            required: false,
+                            where: {
+                                studentId: studentId,
+                                subjectId: { 
+                                    [ Op.eq]: sequelize.col('Subject.id')
+                                }
+                            }
+                        },
+                    ]
+                }
+            ]
+        })
+    };
+
+    async getSubjectGrades(subjectId) {
+        return await Grade.findAll({
+            where: {
+                subjectId: subjectId
+            },
+            include: [
+                {   
+                    model: User,
+                    required: false,
+                    include: [ { model: School} ]
+                 },
+            ]
+        });
     }
 
     async getStudentsForSubjectById(id){
