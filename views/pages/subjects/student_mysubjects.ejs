@@ -1,0 +1,38 @@
+<%- include('../partials/head', { title: 'View student subjects'}) %>
+<body>
+    <h3>View teacher subjects ( <%= user.name + ' ' + user.surname %> ):</h3>
+    <%- include('../partials/navbar') %>
+    
+    <% if (studentSubjects) { %>
+        <table class="table">
+            <tr>
+                <th>_id</th>
+                <th>Name</th>
+                <td>Grades</td>
+            </tr>
+            <% for (let i = 0; i < studentSubjects.length; i++){ %>
+                <% const subject = studentSubjects[i] %>
+                
+                <tr>
+                    <td><%= subject.id %></td>
+                    <td><%= subject.name %></td>
+                    <td>
+                        <% grades = subject['Users'][0]?.Grades %>
+                        <% if (grades){ %>
+                        <%    for (let p = 0; p< grades.length; p++){%>
+                        <%          const grade = grades[p] %>
+                        <%=         grade.grade %>
+                        <%   } %>
+                        <% }  %>
+                    
+                    </td>
+                </tr>
+            <%} %>
+
+        </table>
+        
+    <%}%>
+
+    <%- include('../partials/footer') %>
+
+</body>

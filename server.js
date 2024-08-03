@@ -202,7 +202,6 @@ app.get('/subjects/view/:id/grades', checkAuthenticated, authRole, async(req,res
 });
 
 app.get('/student/mysubjects', checkAuthenticated,  authRole, async (req,res) => {
-    console.log(req.user.role, '-----------------')
     if (req.user.role === 'student') {
         const studentSubjects = await subjectsController.getStudentSubjects( req.user.id );
 
