@@ -1,0 +1,47 @@
+<%- include('../partials/head', { title: 'View techaer subjects'}) %>
+<body>
+    <h3>View teacher subjects ( <%= user.name + ' ' + user.surname %> ):</h3>
+    <%- include('../partials/navbar') %>
+    
+    <% if (teacherSubjects) { %>
+        <% for (let i = 0; i < teacherSubjects.length; i++){ %>
+            <% const subject = teacherSubjects[i] %>
+            <% const students = subject['Users'] %>
+
+            <h3>Subjects: <%= subject.name %></h3>
+            <table class="table">
+                <tr>
+                    <th>_id</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Role</th>
+                    <th>School</th>
+                    <th>Actions</th>
+                </tr>
+                <% for (let a = 0; a < students.length; a++) {%>
+                    <% const student = students[a] %>
+                    <tr>
+                        <td><%= student.id %></td>
+                        <td><%= student.name %></td>
+                        <td><%= student.surname %></td>
+                        <td><%= student.role %></td>
+                        <td><%= student['School']?.name %></td>
+                        <td>
+                            <a href="/admin/users/view/<%= student.id %>">View</a></br>
+                            <a href="/subjects/view/<%= subject.id %>/student/<%= student.id %>/addgrade">Add grade</a>
+                        </td>
+                    </tr>
+                <% } %>
+            </table>
+            <a href="/subjects/view/<%= subject.id %>/grades">
+                <button class="btn">View grades for subject:<%= subject.name %></button>
+            </a></br>
+            <a href="/subjects/view/<%= subject.id %>/addstudent">
+                <button class="btn">Add student to subject:<%= subject.name %></button>
+            </a>
+        <%} %>
+    <%}%>
+
+    <%- include('../partials/footer') %>
+
+</body>
