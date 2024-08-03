@@ -1,0 +1,46 @@
+<%- include('../partials/head', { title: 'View grades for subjects'}) %>
+<body>
+    <h3>View grades for subjects ( <%= subject.name %> ):</h3>
+    <%- include('../partials/navbar') %>
+    
+    <% if ( grades ) { %>
+        <h3>Subjects: <%= subject.name %></h3>
+            <table class="table">
+                <tr>
+                    <th>_id</th>
+                    <th>Grade</th>
+                    <th>Student</th>
+                    <th>School</th>
+                    <th>Actions</th>
+                </tr>
+
+        <% for (let i = 0; i < grades.length; i++){ %>
+            <% const grade = grades[i] %>
+            <% const student = grade['User'] %>
+
+            <%= console.log(student) %>
+            <tr>
+                <td><%= grade.id %></td>
+                <td><%= grade.grade %></td>
+                <td><%= student.name + ' ' + student.surname %></td>
+                <td><%= student['School']?.name %></td>
+                <td>
+                    <a href="/subjects/view/<%= subject.id %>/student/<%= student %>/addgrade">Add grade</a>
+                </td>
+            </tr>
+            
+        <%} //end for %>
+
+        </table>
+
+        <a href="/subjects/view/<%= subject.id %>/grades">
+            <button class="btn">View grades for subject:<%= subject.name %></button>
+        </a></br>
+        <a href="/subjects/view/<%= subject.id %>/addstudent">
+            <button class="btn">Add student to subject:<%= subject.name %></button>
+        </a>
+    <%}  //end if%>
+
+    <%- include('../partials/footer') %>
+
+</body>
