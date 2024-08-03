@@ -67,7 +67,7 @@ export class SubjectsController {
         )
     };
 
-    async getStudentsSubject(studentId){
+    async getStudentSubjects(studentId){
         return await Subject.findAll({
            
             include: [

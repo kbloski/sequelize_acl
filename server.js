@@ -170,6 +170,52 @@ app.get('/subjects/view/:id', checkAuthenticated, authRole, async(req,res) => {
 });
 
 // add grade to student in subject
+app.get('/teacher/mysubjects', checkAuthenticated, authRole, async(req,res) => {
+    if (req.user.role == 'teacher') {
+        const teacherSubjects = await subjectsController.getTeacherSubjects(req.user.id);
+        console.log('teacherSubjects', teacherSubjects);
+
+        return res.render(
+            'pages/subjects/teacher_mysubjects.ejs',{
+                user: req.user,
+                teacherSubjects: teacherSubjects
+            }
+        
+        )
+    } 
+    res.redirect('/');
+});
+
+app.get('/subjects/view/:id/grades', checkAuthenticated, authRole, async(req,res) => {
+    const { id } = req.params;
+    if (!id) res.redirect('/teacher/mysubjects');
+
+    const grades = await subjectsController.getSubjectGrades( id );
+    const subject = await subjectsController.getById( id );
+
+    res.render('pages/subjects/subject_grades.ejs', {
+        user: req.user,
+        grades: grades,
+        subject: subject
+    })
+
+});
+
+app.get('/student/mysubject', checkAuthenticated,  authRole, async (req,res) => {
+    if (req.user.role === 'student') {
+        const studentSubjects = await subjectsController.getStudentSubjects( req.user.id );
+
+        res.render('pages/subjects/student_mysubjects.ejs', {
+            user: req.user,
+            studentSubjects: studentSubjects
+        })
+
+    } else {
+        res.redirect('/')
+    }
+    
+});
+
 app.get('/subjects/view/:subjectId/student/:studentId/addgrade', checkAuthenticated, authRole, async (req,res) => {
     const { subjectId, studentId} = req.params;
     if (!subjectId || !studentId) res.redirect('/subjects');
