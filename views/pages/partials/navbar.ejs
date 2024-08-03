@@ -36,8 +36,13 @@
             <% } %> 
             <% if ( htmlHelper.hasAccessForUserRoleOrHigher(user.role, 'teacher') ){ %>
                 <h4>Teacher Panel</h4>
-                    <li> <a href="/subjects">Subjects</a></li>
-                    <li> <a href="/grades">Grades</a></li>
+                    <li> <a href="/teacher/mysubjects">Subjects</a></li>
+                
+            <% } %> 
+            <% if ( htmlHelper.hasAccessForUserRoleOrHigher(user.role, 'student') ){ %>
+                <h4>Student Panel</h4>
+                    <li> <a href="/student/mysubjects">My subjects</a></li>
+                   
                 
             <% } %> 
         </ul>
