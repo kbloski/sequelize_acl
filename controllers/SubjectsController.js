@@ -1,5 +1,6 @@
 import { User, School, Subject, Grade} from '../models/schemas.js';
 import { Op } from 'sequelize';
+import { sequelize } from '../utility/db.js';
 
 export class SubjectsController {
     async getAll(){
@@ -55,7 +56,7 @@ export class SubjectsController {
         return await Subject.findAll(
             {
                 where: { 
-                teahcerId: teacherId
+                teacherId: teacherId
             }, 
             include: [
                 { 

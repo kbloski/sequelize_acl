@@ -45,7 +45,7 @@ const usersRoles = [
         priority: 2,
         allows: [
             { resource: '/dashboard', permissions: [ 'post', 'get ']},
-            { resource: '/student/mysubjects', permissions: [ 'post', 'get ']},
+            { resource: '/student/mysubjects', permissions: '*'},
         ]
     },
     {
